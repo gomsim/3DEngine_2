@@ -5,6 +5,7 @@ public class VectorUtil {
     public static final int X = 0, Y = 1, Z = 2;
     public static final int R = 0, G = 1, B = 2;
     public static final int NUM_DIMENSIONS = 3;
+    public static final double[] ORIGIN = {0,0,0};
 
     public static double[] unitVector(int x, int y, int z){
         double length = Math.sqrt(Math.pow(x,2) + Math.pow(y,2) + Math.pow(z,2));
