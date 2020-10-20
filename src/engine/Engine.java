@@ -36,10 +36,10 @@ public class Engine {
                 Thread.sleep(1000/FRAME_RATE);
             }catch(InterruptedException e){
                 e.printStackTrace();
-            }*/
+            }
             duration = System.nanoTime()-startTime;
             if (++i % 60 == 0) // print current framerate to console
-                System.out.println(1000000000L/duration);
+                System.out.println(1000000000L/duration);*/
         }
     }
     public boolean add(Artifact ... artifact){
