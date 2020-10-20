@@ -100,4 +100,7 @@ public class VectorUtil {
         else
             return -1;
     }
+    public static double inverseSquare(double distance){
+        return 1/(Math.pow(distance,2));
+    }
 }
