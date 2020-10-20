@@ -28,7 +28,8 @@ public class GUI extends JFrame {
         renderer.setBounds(getX(),getY(),getWidth(),getHeight());
         add(renderer);
 
-        setCursor(getToolkit().createCustomCursor(null, new Point(), "transparent"));
+        Toolkit toolkit = getToolkit();
+        setCursor(toolkit.createCustomCursor(toolkit.getImage(""), new Point(), "transparent"));
 
         setVisible(true);
     }
