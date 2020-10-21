@@ -32,14 +32,14 @@ public class Engine {
         while(true){
             startTime = System.nanoTime();
             renderer.render(); //TODO: Threading problems here??
-            /*try{
+            try{
                 Thread.sleep(1000/FRAME_RATE);
             }catch(InterruptedException e){
                 e.printStackTrace();
             }
             duration = System.nanoTime()-startTime;
             if (++i % 60 == 0) // print current framerate to console
-                System.out.println(1000000000L/duration);*/
+                System.out.println(1000000000L/duration);
         }
     }
     public boolean add(Artifact ... artifact){
