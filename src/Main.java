@@ -2,6 +2,7 @@ import components.Artifact;
 import components.Vertex;
 import components.Polygon;
 import engine.Engine;
+import util.VectorUtil;
 
 import java.awt.*;
 

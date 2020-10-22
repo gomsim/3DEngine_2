@@ -51,6 +51,31 @@ public class VectorUtil {
         result[Z] = vec[Z] * multiplier;
         return result;
     }
+    public static double[][] multiply(double[][] a, double[][] b){
+        int aRows = a.length;
+        int aCols = a[0].length;
+        int bRows = b.length;
+        int bCols = b[0].length;
+
+        if (aCols != bRows)
+            throw new ArithmeticException("matrix a's num columns must equal b's num rows. Got: " + "a num cols: " + aCols + " b num rows " + bRows);
+        double[][] result = new double[aRows][bCols];
+
+        int resRows = result.length;
+        int resCols = result[0].length;
+
+
+        for (int row = 0; row < resRows; row++){
+            for (int col = 0; col < resCols; col++){
+                double sum = 0;
+                for (int i = 0; i < aCols; i++){
+                    sum += a[row][i] * b[i][col];
+                }
+                result[row][col] = sum;
+            }
+        }
+        return result;
+    }
     public static double[] copy(double[] vec){
         double[] copy = new double[NUM_DIMENSIONS];
         for (int i = 0; i < vec.length; i++)

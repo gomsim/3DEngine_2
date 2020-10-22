@@ -50,6 +50,8 @@ public class Engine {
         return artifacts;
     }
 
+    //TODO: MAJOR TODO!! I need to combine the rotation matrix, each vertex's position and the translation matrix into one in order to do a combined transformation calculation!!!!!!!!!
+
     public void move(double[] vec){
         for (Artifact artifact: artifacts){
             artifact.translate(vec);
@@ -58,6 +60,16 @@ public class Engine {
     }
 
     public void rotate(double[] degs){
+        degs = correctForNaturalMovement(degs);
+
+        double[][] rotationMatrix = genRotMatrix(degs);
+
+        for (Artifact artifact: artifacts){
+            artifact.rotate(rotationMatrix);
+            System.out.println(artifact); //FOR TESTING
+        }
+    }
+    private double[] correctForNaturalMovement(double[] degs){
         if (viewAngle + degs[X] <= -90)
             degs[X] = -90 - viewAngle;
         if (viewAngle + degs[X] >= 90)
@@ -71,13 +83,7 @@ public class Engine {
             degs[Y] += -degs[Z];
         else if (viewAngle < 0) //Uppåt
             degs[Y] += degs[Z];
-
-        double[][] rotationMatrix = genRotMatrix(degs);
-
-        for (Artifact artifact: artifacts){
-            artifact.rotate(rotationMatrix);
-            System.out.println(artifact); //FOR TESTING
-        }
+        return degs;
     }
     private double[][] genRotMatrix(double[] degs){
         double rotX = Math.toRadians(degs[X]);

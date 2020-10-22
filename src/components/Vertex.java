@@ -10,7 +10,7 @@ public class Vertex {
 
     public Vertex(int x, int y, int z){
         if (x < 0 || y < 0 || z < 0){
-            throw new IllegalGeometryException("Vertices cannot be negative");
+            throw new IllegalGeometryException("Coordinates cannot be negative. Got: [ x:" + x + " y:" + y + " z:" + z + " ]");
         }
         coordinates[X] = x;//+1; //TODO: Why +1 again?? On second thought I think it is because otherwise the polygon could be exactly AT the bounding box edge of the artifact and not be rendered, if the system is set up in such a way.
         coordinates[Y] = y;//+1; //TODO: Why +1 again?? On second thought I think it is because otherwise the polygon could be exactly AT the bounding box edge of the artifact and not be rendered, if the system is set up in such a way.
@@ -19,7 +19,7 @@ public class Vertex {
     public double[] asVector(){
         return new double[] {coordinates[X],coordinates[Y],coordinates[Z]};
     }
-    public void rotate(double[][] rot){
+    public void rotate(double[][] rot){ //TODO: Really just a matric multiplication between coordinates vector and rotation matrix... So can be simplified.
         double result[] = {
                 rot[X][0] * coordinates[X] + rot[X][1] * coordinates[Y] + rot[X][2] * coordinates[Z],
                 rot[Y][0] * coordinates[X] + rot[Y][1] * coordinates[Y] + rot[Y][2] * coordinates[Z],
