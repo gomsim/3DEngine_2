@@ -2,6 +2,7 @@ package components;
 
 import java.awt.*;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import static util.VectorUtil.*;
@@ -13,6 +14,7 @@ public class Artifact {
     private double width, height, depth;
 
     //shape
+    private HashMap<Integer, Vertex> vertices = new HashMap<>();
     private HashSet<Polygon> polygons = new HashSet<>();
     private Color color;
 
@@ -20,9 +22,21 @@ public class Artifact {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.polygons.addAll(Arrays.asList(polygons));
         this.color = color;
+        addPolygons(polygons);
         setBounds();
+    }
+
+    private void addPolygons(Polygon ... polygons){
+        for (Polygon polygon: polygons){
+            Vertex[] polygonVertices = polygon.getVertices();
+            for (int i = 0; i < polygonVertices.length; i++){
+                if (!vertices.containsKey(polygonVertices[i].hashCode()))
+                    vertices.put(polygonVertices[i].hashCode(), polygonVertices[i]);
+                else
+                    polygonVertices[i] = vertices.get(polygonVertices.hashCode());
+            }
+        }
     }
     public double[] getPos(){
         return new double[] {x,y,z};
@@ -73,8 +87,8 @@ public class Artifact {
         x = res[X];
         y = res[Y];
         z = res[Z];
-        for (Polygon polygon: polygons){
-            polygon.rotate(rot);
+        for (Vertex vertex: vertices.values()){
+            vertex.rotate(rot);
         }
         setBounds();
     }
@@ -115,10 +129,10 @@ public class Artifact {
     }
     public String toString(){
         StringBuilder builder = new StringBuilder();
-        builder.append(color+" ["+x+" "+y+" "+z+"] ("+width+" "+height+" "+depth+")");
+        //builder.append(color+" ["+x+" "+y+" "+z+"] ("+width+" "+height+" "+depth+")");
         builder.append("\n");
-        for (Polygon polygon: polygons){
-            builder.append(polygon);
+        for (Vertex vertex: vertices.values()){
+            builder.append(vertices);
             builder.append("\n");
         }
         return builder.toString();

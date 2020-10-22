@@ -24,35 +24,6 @@ public class Polygon {
                 subtract(vertices[C].asVector(), vertices[A].asVector()));
     }
 
-    public void rotate(double[][] rot) {
-        double resA[] = {
-                rot[X][0] * vertices[A].coordinates[X] + rot[X][1] * vertices[A].coordinates[Y] + rot[X][2] * vertices[A].coordinates[Z],
-                rot[Y][0] * vertices[A].coordinates[X] + rot[Y][1] * vertices[A].coordinates[Y] + rot[Y][2] * vertices[A].coordinates[Z],
-                rot[Z][0] * vertices[A].coordinates[X] + rot[Z][1] * vertices[A].coordinates[Y] + rot[Z][2] * vertices[A].coordinates[Z]
-        };
-        vertices[A].coordinates[X] = resA[X];
-        vertices[A].coordinates[Y] = resA[Y];
-        vertices[A].coordinates[Z] = resA[Z];
-
-        double resB[] = {
-                rot[X][0] * vertices[B].coordinates[X] + rot[X][1] * vertices[B].coordinates[Y] + rot[X][2] * vertices[B].coordinates[Z],
-                rot[Y][0] * vertices[B].coordinates[X] + rot[Y][1] * vertices[B].coordinates[Y] + rot[Y][2] * vertices[B].coordinates[Z],
-                rot[Z][0] * vertices[B].coordinates[X] + rot[Z][1] * vertices[B].coordinates[Y] + rot[Z][2] * vertices[B].coordinates[Z]
-        };
-        vertices[B].coordinates[X] = resB[X];
-        vertices[B].coordinates[Y] = resB[Y];
-        vertices[B].coordinates[Z] = resB[Z];
-
-        double resC[] = {
-                rot[X][0] * vertices[C].coordinates[X] + rot[X][1] * vertices[C].coordinates[Y] + rot[X][2] * vertices[C].coordinates[Z],
-                rot[Y][0] * vertices[C].coordinates[X] + rot[Y][1] * vertices[C].coordinates[Y] + rot[Y][2] * vertices[C].coordinates[Z],
-                rot[Z][0] * vertices[C].coordinates[X] + rot[Z][1] * vertices[C].coordinates[Y] + rot[Z][2] * vertices[C].coordinates[Z]
-        };
-        vertices[C].coordinates[X] = resC[X];
-        vertices[C].coordinates[Y] = resC[Y];
-        vertices[C].coordinates[Z] = resC[Z];
-    }
-
     public void translate(double[] dir) {
         for (Vertex vertex : vertices) {
             vertex.coordinates[X] += dir[X];
@@ -77,6 +48,18 @@ public class Polygon {
         if (vertices[C].coordinates[axis] > max)
             max = vertices[C].coordinates[axis];
         return max;
+    }
+
+    public boolean equals(Object object){
+        if (!(object instanceof Polygon))
+            return false;
+        Polygon other = (Polygon) object;
+        return other.vertices[X].equals(vertices[X]) &&
+                other.vertices[Y].equals(vertices[Y]) &&
+                other.vertices[Z].equals(vertices[Z]);
+    }
+    public int hashCode(){
+        return 13 * vertices[X].hashCode() * vertices[Y].hashCode() * vertices[Z].hashCode();
     }
 
     public String toString() {

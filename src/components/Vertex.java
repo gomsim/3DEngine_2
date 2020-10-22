@@ -19,6 +19,27 @@ public class Vertex {
     public double[] asVector(){
         return new double[] {coordinates[X],coordinates[Y],coordinates[Z]};
     }
+    public void rotate(double[][] rot){
+        double result[] = {
+                rot[X][0] * coordinates[X] + rot[X][1] * coordinates[Y] + rot[X][2] * coordinates[Z],
+                rot[Y][0] * coordinates[X] + rot[Y][1] * coordinates[Y] + rot[Y][2] * coordinates[Z],
+                rot[Z][0] * coordinates[X] + rot[Z][1] * coordinates[Y] + rot[Z][2] * coordinates[Z]
+        };
+        coordinates[X] = result[X];
+        coordinates[Y] = result[Y];
+        coordinates[Z] = result[Z];
+    }
+    public boolean equals(Object object){
+        if (!(object instanceof Vertex))
+            return false;
+        Vertex other = (Vertex) object;
+        return other.coordinates[X] == coordinates[X] &&
+                other.coordinates[Y] == coordinates[Y] &&
+                other.coordinates[Z] == coordinates[Z];
+    }
+    public int hashCode(){
+        return (int)(13 * coordinates[X] * coordinates[Y] * coordinates[Z]);
+    }
     public String toString(){
         return "["+(int)coordinates[X]+" "+(int)coordinates[Y]+" "+(int)coordinates[Z]+"]";
     }

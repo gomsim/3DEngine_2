@@ -53,6 +53,7 @@ public class Engine {
     public void move(double[] vec){
         for (Artifact artifact: artifacts){
             artifact.translate(vec);
+            System.out.println(artifact); //FOR TESTING
         }
     }
 
@@ -75,6 +76,7 @@ public class Engine {
 
         for (Artifact artifact: artifacts){
             artifact.rotate(rotationMatrix);
+            System.out.println(artifact); //FOR TESTING
         }
     }
     private double[][] genRotMatrix(double[] degs){
