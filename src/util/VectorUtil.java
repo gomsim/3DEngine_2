@@ -107,10 +107,12 @@ public class VectorUtil {
         return "["+vec[X]+","+vec[Y]+","+vec[Z]+"]";
     }
     public static double length(double[] vec){
-        return Math.sqrt(
+        return
+            Math.sqrt(
                 Math.pow(vec[X],2) +
-                        Math.pow(vec[Y],2) +
-                        Math.pow(vec[Z],2));
+                Math.pow(vec[Y],2) +
+                Math.pow(vec[Z],2)
+            );
     }
     public static double angleBetween(double[] v1, double[] v2){
         return Math.acos(VectorUtil.dotProduct(v1,v2)/(VectorUtil.length(v1)*VectorUtil.length(v2)));

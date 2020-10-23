@@ -92,6 +92,12 @@ public class Artifact {
         }
         setBounds();
     }
+
+    public void transform(double[] transVec, double[] scaleVec, double[][] rotMatrix){
+        //TODO: Detta är bättre att göra när väl renderingen är på plats så att man ser om det funkar bra.
+        // Tanken är att transform-metoden gör en samanslagen transformationsberäkning för alla tre transformationer.
+        // Varje artefakt lär dock behöva göra sin egen beräkning, därav placeringen av metoden här istället för i Engine.
+    }
     private void setBounds(){
         if (polygons.isEmpty())
             return;
