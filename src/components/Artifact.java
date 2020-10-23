@@ -97,6 +97,8 @@ public class Artifact {
         //TODO: Detta är bättre att göra när väl renderingen är på plats så att man ser om det funkar bra.
         // Tanken är att transform-metoden gör en samanslagen transformationsberäkning för alla tre transformationer.
         // Varje artefakt lär dock behöva göra sin egen beräkning, därav placeringen av metoden här istället för i Engine.
+        // referens: https://www.youtube.com/watch?v=vQ60rFwh2ig
+        // referens https://en.wikipedia.org/wiki/3D_projection
     }
     private void setBounds(){
         if (polygons.isEmpty())
