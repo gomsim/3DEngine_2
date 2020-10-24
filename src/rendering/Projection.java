@@ -1,4 +1,4 @@
 package rendering;
 
-public class Projection {
+class Projection {
 }
