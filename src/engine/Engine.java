@@ -14,7 +14,7 @@ public class Engine {
     private ArrayList<Artifact> artifacts = new ArrayList<>();
     private ArrayList<Artifact> luminecents = new ArrayList<>();
     public static final int FRAME_RATE = 60;
-    private double viewAngle = 0; //TODO: Borde vara i renderer nånstans
+    private double viewTiltAngle = 0;
 
     private Engine(){
         new GUI(renderer);
@@ -70,18 +70,18 @@ public class Engine {
         }
     }
     private double[] correctForNaturalMovement(double[] degs){
-        if (viewAngle + degs[X] <= -90)
-            degs[X] = -90 - viewAngle;
-        if (viewAngle + degs[X] >= 90)
-            degs[X] = 90 - viewAngle;
-        viewAngle += degs[X];
+        if (viewTiltAngle + degs[X] <= -90)
+            degs[X] = -90 - viewTiltAngle;
+        if (viewTiltAngle + degs[X] >= 90)
+            degs[X] = 90 - viewTiltAngle;
+        viewTiltAngle += degs[X];
 
-        double angle = viewAngle / 90;
+        double angle = viewTiltAngle / 90;
         degs[Z] = degs[Y]*angle;
 
-        if (viewAngle > 0) //Nedåt
+        if (viewTiltAngle > 0) //Nedåt
             degs[Y] += -degs[Z];
-        else if (viewAngle < 0) //Uppåt
+        else if (viewTiltAngle < 0) //Uppåt
             degs[Y] += degs[Z];
         return degs;
     }
