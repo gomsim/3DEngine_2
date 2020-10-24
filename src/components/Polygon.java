@@ -6,7 +6,7 @@ import static util.VectorUtil.*;
 
 public class Polygon {
 
-    private static final int A = 0, B = 1, C = 2;
+    public static final int A = 0, B = 1, C = 2;
     private Vertex[] vertices = new Vertex[NUM_DIMENSIONS];
 
     public Polygon(Vertex a, Vertex b, Vertex c) {

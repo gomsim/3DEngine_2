@@ -42,7 +42,7 @@ public class Artifact {
         return new double[] {x,y,z};
     }
     public boolean isBehindOrigin(){
-        return z < 0 && z + depth < 0;
+        return z + depth < 0;
     }
 
     public HashSet<Polygon> getPolygons(){
@@ -61,10 +61,10 @@ public class Artifact {
                 point[Z] <= z + depth+margin;
     }
 
-    private double[] globalPointToLocal(double[] global){
+    public double[] globalPointToLocal(double[] global){
         return subtract(global, getPos());
     }
-    private double[] localPointToGlobal(double[] local){
+    public double[] localPointToGlobal(double[] local){
         return add(local, getPos());
     }
 

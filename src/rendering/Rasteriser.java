@@ -18,9 +18,13 @@ class Rasteriser {
     }
 
     void rasterise(Projection projection){
-
+        //TODO: DENNA process kommer vara trådad där antalet trådar i systemet överför info från projektionen till rastret.
+        //TODO: Glöm inte att invänta traådarna när resteriseringen är klar, så att det blir en "atomär" operation.
+        //TODO: Använd trådpoolen i ThreadPool
     }
+
     Raster getRaster(){
         return raster;
     }
+
 }

@@ -1,13 +1,19 @@
 package rendering;
 
 import components.Artifact;
+import components.Polygon;
+import components.Vertex;
+import engine.Engine;
 
 import static rendering.Renderer.*;
+import static util.VectorUtil.*;
 
 class Camera {
 
+    //TODO: VIEW_ANDLE and LENS_DISTANCE should be moved to config file
     private static final int VIEW_ANGLE = 90;
     private static final double LENS_DISTANCE = 100;
+
     private static final int LENS_WIDTH = calculateLensWidth(VIEW_ANGLE, LENS_DISTANCE);
     private static final int LENS_HEIGHT = calculateLensHeight(VIEW_ANGLE, LENS_DISTANCE);
 
@@ -21,12 +27,37 @@ class Camera {
     }
 
     Raster capture(){
-        //Rensa rasteriseraren
-        //Loopa genom alla artefakter och projicera dem
-        //  För varje artefakt be rasteriseraren rasterisera artefakten
-        //Hämta ut och returnera rastret
+        rasteriser.cleanRaster();
+        for (Artifact artifact: Engine.instance().getArtifacts()){
+            //TODO: Använd trådpoolen i ThreadPool för vardera artefakt. För detta måste dock Rasteriser var trådsäkert.
+            if (!artifact.isBehindOrigin()){
+                for (Polygon polygon: artifact.getPolygons()){
+                    if (facingCamera(polygon)){
+                        Projection projection = projectPolygon(artifact, polygon);
+                        rasteriser.rasterise(projection);
+                    }
+                }
+            }
+        }
+        return rasteriser.getRaster();
     }
-    private Projection project(Artifact artifact){
-        return null;
+    private Projection projectPolygon(Artifact artifact, Polygon polygon){
+        return new Projection(
+                projectVertex(artifact, polygon.getVertices()[Polygon.A]),
+                projectVertex(artifact, polygon.getVertices()[Polygon.B]),
+                projectVertex(artifact, polygon.getVertices()[Polygon.C])
+        );
+    }
+    private Vertex projectVertex(Artifact artifact, Vertex vertex){
+        double[] coordinates = artifact.localPointToGlobal(vertex.coordinates);
+        double zRatio = LENS_DISTANCE / coordinates[Z];
+        return new Vertex(
+                coordinates[X] * zRatio,
+                coordinates[Y] * zRatio,
+                coordinates[Z]
+                );
+    }
+    private boolean facingCamera(Polygon polygon){
+        return polygon.getNormal()[Z] < 0;
     }
 }

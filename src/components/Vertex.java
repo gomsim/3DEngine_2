@@ -8,7 +8,7 @@ public class Vertex {
 
     public double[] coordinates = new double[NUM_DIMENSIONS];
 
-    public Vertex(int x, int y, int z){
+    public Vertex(double x, double y, double z){
         if (x < 0 || y < 0 || z < 0){
             throw new IllegalGeometryException("Coordinates cannot be negative. Got: [ x:" + x + " y:" + y + " z:" + z + " ]");
         }
