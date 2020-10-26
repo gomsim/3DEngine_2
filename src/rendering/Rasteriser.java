@@ -1,6 +1,9 @@
 package rendering;
 
+import components.Vertex;
 import util.Mapper;
+
+import static util.VectorUtil.*;
 
 class Rasteriser {
 
@@ -35,11 +38,18 @@ class Rasteriser {
             }
         }
     }
-    private double pixelDepth(Projection projection, int x, int y){
-        //TODO: Do some kind of mapping between X Y and Z for this pixel...
+    private double pixelDepth(Projection projection, int x, int y){ //This implementation was just found from reasoning. There is probably a strictly mathematical way.
+        double[] centerVector = {x,y,0};
+        Vertex[] projectionVertices = projection.polygon.getVertices();
+        double[] intersectionBE = intersectsAtXY(projectionVertices[A].coordinates, new double[] {x*999,y*999}, projectionVertices[B].coordinates, projectionVertices[C].coordinates);
+        double deltaX = projectionVertices[B].coordinates[X];
+        double deltaZ = projectionVertices[C].coordinates[X];
+        double intersectRatio = 0;
+        //TODO: Do some focking shait here tomorrow when the sun is upp...
+        return -1;
     }
     private int rasterisePixel(Projection projection, int x, int y){
-
+        return -1;
     }
 
     Raster getRaster(){

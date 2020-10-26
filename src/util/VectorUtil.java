@@ -3,7 +3,8 @@ package util;
 public class VectorUtil {
 
     public static final int X = 0, Y = 1, Z = 2;
-    public static final int R = 0, G = 1, B = 2;
+    public static final int RED = 0, GREEN = 1, BLUE = 2;
+    public static final int A = 0, B = 1, C = 2;
     public static final int NUM_DIMENSIONS = 3;
     public static final double[] ORIGIN = {0,0,0};
 
@@ -114,6 +115,21 @@ public class VectorUtil {
     }
     public static double angleBetween(double[] v1, double[] v2){
         return Math.acos(VectorUtil.dotProduct(v1,v2)/(VectorUtil.length(v1)*VectorUtil.length(v2)));
+    }
+    public static double[] intersectsAtXY(double[] v1a, double[] v1b, double[] v2a, double[] v2b){ //This one feels CONTRIIIIIIVED...
+        double[] intersection = new double[NUM_DIMENSIONS - 1];
+        intersection[X] =
+                ((v1a[X]*v1b[Y] - v1a[Y]*v1b[X])*(v2a[X] - v2b[X]) -
+                (v2a[X]*v2b[Y] - v2a[Y]*v2b[X])*(v1a[X] - v1b[X])) /
+                ((v1a[X] - v1b[X])*(v2a[Y] - v2b[Y]) -
+                (v2a[X] - v2b[X])*(v1a[Y] - v1b[Y]));
+
+        intersection[Y] =
+                ((v1a[X]*v1b[Y] - v1a[Y]*v1b[X])*(v2a[Y] - v2b[Y]) -
+                (v2a[X]*v2b[Y] - v2a[Y]*v2b[X])*(v1a[Y] - v1b[Y])) /
+                ((v1a[X] - v1b[X])*(v2a[Y] - v2b[Y]) -
+                (v2a[X] - v2b[X])*(v1a[Y] - v1b[Y]));
+        return intersection;
     }
     public static int normalAxis(double[] normal){
         if (normal[X] != 0)

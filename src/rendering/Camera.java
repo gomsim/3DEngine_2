@@ -32,7 +32,7 @@ class Camera {
             //TODO: Använd trådpoolen i ThreadPool för vardera artefakt. För detta måste dock Rasteriser var trådsäkert.
             if (!artifact.isBehindOrigin()){
                 for (Polygon polygon: artifact.getPolygons()){
-                    if (facingCamera(polygon)){
+                    if (!behindCamera(polygon) && facingCamera(polygon)){
                         Projection projection = projectPolygon(artifact, polygon);
                         rasteriser.rasterise(projection);
                     }
@@ -57,6 +57,14 @@ class Camera {
                 coordinates[Z]
                 );
     }
+    private boolean behindCamera(Polygon polygon){
+        Vertex[] vertices = polygon.getVertices();
+        return
+                vertices[A].coordinates[Z] < 0 &&
+                vertices[B].coordinates[Z] < 0 &&
+                vertices[C].coordinates[Z] < 0;
+    }
+
     private boolean facingCamera(Polygon polygon){
         return polygon.getNormal()[Z] < 0;
     }
