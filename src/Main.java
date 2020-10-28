@@ -2,7 +2,7 @@ import components.Artifact;
 import components.Vertex;
 import components.Polygon;
 import engine.Engine;
-import util.VectorUtil;
+import static util.VectorUtil.*;
 
 import java.awt.*;
 
@@ -10,6 +10,10 @@ import java.awt.*;
 public class Main {
 
     public static void main(String[] args){
+        /*double[] result = interpolate(new double[] {-5,5,0}, new double[] {5,1,0}, 2, X);
+        System.out.println("[" + result[X] + "," + result[Y] + "," + result[Z] + "]");*/
+
+
         Engine engine = Engine.instance();
 
         int size = 500;

@@ -131,6 +131,18 @@ public class VectorUtil {
                 (v2a[X] - v2b[X])*(v1a[Y] - v1b[Y]));
         return intersection;
     }
+    public static double[] interpolate(double[] a, double[] b, double at, int axis){
+        if (axis != X && axis != Y && axis != Z){
+            throw new IllegalGeometryException("Axis must be 0, 1 or 2. Got: " + axis);
+        }
+        double[] deltaAB = subtract(b, a);
+        at -= a[axis];
+        if (deltaAB[axis] == 0 || at < 0 || at > deltaAB[axis]){
+            throw new IllegalGeometryException("Impossible interpolation between [" + a[X] + "," + a[Y] + "," + a[Z] + "] and [" + b[X] + "," + b[Y] + "," + b[Z] + "] at axis " + axis + "=" + at);
+        }
+        double ratioAt = at/deltaAB[axis];
+        return add(multiply(deltaAB, ratioAt), a);
+    }
     public static int normalAxis(double[] normal){
         if (normal[X] != 0)
             return X;
