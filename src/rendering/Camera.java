@@ -32,7 +32,7 @@ class Camera {
             //TODO: Använd trådpoolen i ThreadPool för vardera artefakt. För detta måste dock Rasteriser var trådsäkert.
             if (!artifact.isBehindOrigin()){
                 for (Polygon polygon: artifact.getPolygons()){
-                    if (!behindCamera(polygon) && facingCamera(polygon)){
+                    if (!behindCamera(polygon) && facingCamera(polygon)){//TODO: Idf you see nothing, try removing these statements temporarily
                         Projection projection = projectPolygon(artifact, polygon);
                         rasteriser.rasterise(projection);
                     }

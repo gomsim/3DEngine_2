@@ -35,20 +35,23 @@ class Rasteriser {
         for (int x = projection.bounds.xMin; x < projection.bounds.xMax; x++){
             for (int y = projection.bounds.yMin; y < projection.bounds.yMax; y++){
                 double pixelDepth = pixelDepth(projection, x, y);
+                if (pixelDepth < raster.getDepth(x,y)){
+                    raster.setDepth(x,y,pixelDepth);
+                    //raster.setColor(x,y,(int)pixelDepth*100);
+                }
             }
         }
     }
     private double pixelDepth(Projection projection, int x, int y){ //This implementation was just found from reasoning. There is probably a strictly mathematical way.
-        double[] centerVector = {x,y,0};
-        Vertex[] projectionVertices = projection.polygon.getVertices();
-        double[] intersectionBE = intersectsAtXY(projectionVertices[A].coordinates, new double[] {x*999,y*999}, projectionVertices[B].coordinates, projectionVertices[C].coordinates);
-        double deltaX = projectionVertices[B].coordinates[X];
-        double deltaZ = projectionVertices[C].coordinates[X];
-        double intersectRatio = 0;
-        //TODO: Do some focking shait here tomorrow when the sun is upp...
-        return -1;
+        //TODO: Check which neither Target-vector nor BC can be strictly vertical or horizontal
+        Vertex[] projVert = projection.polygon.getVertices();
+        double[] target = new double[] {x, y, 0};
+        double[] intersectionBE = intersectsAtXY(projVert[A].coordinates, target, projVert[B].coordinates, projVert[C].coordinates);
+        double[] interpolBC = interpolate(projVert[B].coordinates, projVert[C].coordinates, intersectionBE[X], X);
+        double[] interpolTarget = interpolate(projVert[A].coordinates, interpolBC, x, X);
+        return interpolTarget[Z];
     }
-    private int rasterisePixel(Projection projection, int x, int y){
+    private int rasterisePixel(Projection projection, int x, int y){ //TODO: Set colorBuffer here, based on depthBuffer (whose closest to camera)
         return -1;
     }
 

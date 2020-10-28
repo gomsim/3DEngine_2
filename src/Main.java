@@ -2,6 +2,7 @@ import components.Artifact;
 import components.Vertex;
 import components.Polygon;
 import engine.Engine;
+
 import static util.VectorUtil.*;
 
 import java.awt.*;
@@ -10,7 +11,14 @@ import java.awt.*;
 public class Main {
 
     public static void main(String[] args){
-        /*double[] result = interpolate(new double[] {-5,5,0}, new double[] {5,1,0}, 2, X);
+        /*Projection projection = new Projection(
+                new Vertex(2,4,0),
+                new Vertex(2,0,1),
+                new Vertex(0,4,1)
+        );
+
+
+        double[] result = Rasteriser.pixelDepth(projection,1,3);
         System.out.println("[" + result[X] + "," + result[Y] + "," + result[Z] + "]");*/
 
 
