@@ -30,7 +30,7 @@ public class Main {
         int yellowPos = 200;
 
         //Triangles behind each other
-        engine.add(
+        /*engine.add(
                 new Artifact(
                 -size/2,
                 -size/2,
@@ -62,10 +62,10 @@ public class Main {
                         new Vertex(0,0,wallLength),
                         new Vertex(0,0,0),
                         new Vertex(0,size,wallLength))
-        ));
+        ));*/
 
         //Intersecting triangles
-        /*engine.add(
+        engine.add(
                 new Artifact(
                         -size/2,
                         -size/2,
@@ -79,7 +79,7 @@ public class Main {
                                 new Vertex(0,size,yellowPos ),
                                 new Vertex(size/2,0,yellowPos ),
                                 new Vertex(size,size,yellowPos ))
-                ));*/
+                ));
 
         //Triangles side by side
         /*engine.add(new Artifact(

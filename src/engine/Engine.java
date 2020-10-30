@@ -37,9 +37,9 @@ public class Engine {
             }catch(InterruptedException e){
                 e.printStackTrace();
             }
-            duration = System.nanoTime()-startTime;
+            /*duration = System.nanoTime()-startTime;
             if (++i % 60 == 0) // print current framerate to console
-                System.out.println(1000000000L/duration);
+                System.out.println(1000000000L/duration);*/
         }
     }
     public boolean add(Artifact ... artifact){
@@ -55,7 +55,7 @@ public class Engine {
     public void move(double[] vec){
         for (Artifact artifact: artifacts){
             artifact.translate(vec);
-            System.out.println(artifact); //FOR TESTING
+            //System.out.println(artifact); //FOR TESTING
         }
     }
 
@@ -66,7 +66,7 @@ public class Engine {
 
         for (Artifact artifact: artifacts){
             artifact.rotate(rotationMatrix);
-            System.out.println(artifact); //FOR TESTING
+            //System.out.println(artifact); //FOR TESTING
         }
     }
     private double[] correctForNaturalMovement(double[] degs){

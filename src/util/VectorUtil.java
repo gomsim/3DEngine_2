@@ -159,4 +159,7 @@ public class VectorUtil {
     public static double inverseSquare(double distance){
         return 1/(Math.pow(distance,2));
     }
+    public static double sigmoid(double distance){
+        return 1/(1 + Math.exp(-distance));
+    }
 }

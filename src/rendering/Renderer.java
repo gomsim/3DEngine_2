@@ -7,8 +7,8 @@ import java.awt.image.DataBufferInt;
 
 public class Renderer extends JPanel {
 
-    static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
-    static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
+    static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width; //TODO: Måste anpassas efter skalningen i Windows
+    static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height; //TODO: Måste anpassas efter skalningen i Windows
 
     private Camera camera = new Camera();
     private BufferedImage img = new BufferedImage(SCREEN_WIDTH, SCREEN_HEIGHT, BufferedImage.TYPE_INT_RGB);

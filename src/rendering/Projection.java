@@ -15,7 +15,8 @@ class Projection {
         bounds = getBounds(a, b, c);
     }
     private Bounds getBounds(Vertex ... vertices){
-        int xMin = 0, xMax = 0, yMin = 0, yMax = 0;
+        int xMin = Integer.MAX_VALUE, xMax = Integer.MIN_VALUE;
+        int yMin = Integer.MAX_VALUE, yMax = Integer.MIN_VALUE;
         for (Vertex vertex: vertices){
             if (vertex.coordinates[X] < xMin)
                 xMin = Math.round((float)vertex.coordinates[X]);

@@ -34,15 +34,36 @@ public class Artifact {
                 if (!vertices.containsKey(polygonVertices[i].hashCode()))
                     vertices.put(polygonVertices[i].hashCode(), polygonVertices[i]);
                 else
-                    polygonVertices[i] = vertices.get(polygonVertices.hashCode());
+                    polygonVertices[i] = vertices.get(polygonVertices[i].hashCode());
             }
+            this.polygons.add(polygon);
         }
     }
     public double[] getPos(){
         return new double[] {x,y,z};
     }
-    public boolean isBehindOrigin(){
-        return z + depth < 0;
+
+    public double getX() {
+        return x;
+    }
+    public double getY() {
+        return y;
+    }
+
+    public double getZ() {
+        return z;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public double getDepth() {
+        return depth;
     }
 
     public HashSet<Polygon> getPolygons(){
@@ -117,6 +138,7 @@ public class Artifact {
         Arrays.sort(polygonsYMin);
         Arrays.sort(polygonsZMax);
         Arrays.sort(polygonsZMin);
+        //TODO: The +1 from Polygon could probably go in here to accomodate the bounds to the polygon instead of the other way around.
         x += polygonsXMin[0];
         y += polygonsYMin[0];
         z += polygonsZMin[0];
@@ -132,7 +154,7 @@ public class Artifact {
         //builder.append(color+" ["+x+" "+y+" "+z+"] ("+width+" "+height+" "+depth+")");
         builder.append("\n");
         for (Vertex vertex: vertices.values()){
-            builder.append(vertices);
+            builder.append(vertex);
             builder.append("\n");
         }
         return builder.toString();
