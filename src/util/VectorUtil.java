@@ -137,8 +137,8 @@ public class VectorUtil {
         }
         double[] deltaAB = vectorOf(a, b);
         at -= a[axis];
-        if (deltaAB[axis] == 0/* || at < 0 || at > deltaAB[axis]*/){ //TODO: Must make this work correctly... deltaAB[axis] can be both positive and negativ, but "at" must not be greater than the abs value of that amount.
-            throw new IllegalGeometryException("Impossible interpolation between [" + a[X] + "," + a[Y] + "," + a[Z] + "] and [" + b[X] + "," + b[Y] + "," + b[Z] + "] at axis " + axis + "=" + at);
+        if (deltaAB[axis] == 0){
+            throw new IllegalGeometryException("Impossible interpolation between [" + a[X] + "," + a[Y] + "," + a[Z] + "] and [" + b[X] + "," + b[Y] + "," + b[Z] + "] at axis " + (axis==0?"x":axis==1?"y":"z") + ":" + (at + a[axis]));
         }
         double ratioAt = at/deltaAB[axis];
         return add(multiply(deltaAB, ratioAt), a);

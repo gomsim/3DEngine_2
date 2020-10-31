@@ -71,10 +71,10 @@ public class Main {
                         -size/2,
                         500,
                         Color.RED,
-                        new Polygon(
+                        /*new Polygon(
                                 new Vertex(0,size,0),
                                 new Vertex(size/2,0,size),
-                                new Vertex(size,size,0)),
+                                new Vertex(size,size,0)),*/
                         new Polygon(
                                 new Vertex(0,size,yellowPos ),
                                 new Vertex(size/2,0,yellowPos ),
@@ -84,7 +84,7 @@ public class Main {
         //Triangles side by side
         /*engine.add(new Artifact(
                 -size/2,
-                -size/2,
+                -size/2,ssssssssssssssssssssssssssssssssssssssssssss
                 500,
                 Color.RED,
                 new Polygon(

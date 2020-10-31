@@ -3,14 +3,18 @@ package rendering;
 import components.Vertex;
 import components.Polygon;
 
+import java.awt.*;
+
 import static util.VectorUtil.*;
 
 class Projection {
 
+    Color color;
     Polygon polygon;
     Bounds bounds;
 
-    public Projection(Vertex a, Vertex b, Vertex c) {
+    public Projection(Vertex a, Vertex b, Vertex c, Color color) {
+        this.color = color;
         polygon = new Polygon(a, b, c);
         bounds = getBounds(a, b, c);
     }

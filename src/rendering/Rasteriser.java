@@ -22,7 +22,7 @@ class Rasteriser {
         this.imgWidth = imgWidth;
         this.imgHeight = imgHeight;
         xMapper = new Mapper(lensWidth, imgWidth);
-        xMapper = new Mapper(lensHeigh, imgHeight);
+        yMapper = new Mapper(lensHeigh, imgHeight);
     }
     void cleanRaster(){
         raster = new Raster(imgWidth, imgHeight);
@@ -34,13 +34,20 @@ class Rasteriser {
         //TODO: Använd trådpoolen i ThreadPool
 
         //TODO: Rasteriseringen måste kolla färgen på pixlar och djupet (MHA interpolering)
+        int xMin = xMapper.mapInt(projection.bounds.xMin);
+        int xMax = xMapper.mapInt(projection.bounds.xMax);
+        int yMin = yMapper.mapInt(projection.bounds.yMin);
+        int yMax = yMapper.mapInt(projection.bounds.yMax);
+
+
+        //TODO: Borde egentligen basera sina bounds på mappern!!
         for (int x = projection.bounds.xMin; x < projection.bounds.xMax; x++){
             for (int y = projection.bounds.yMin; y < projection.bounds.yMax; y++){
-                if (!outsideRaster(x,y) && insideProjection(projection, x, y)){
+                if (!outsideRaster(x, y) && insideProjection(projection, x, y)){
                     double pixelDepth = pixelDepth(projection, x, y);
                     if (pixelDepth > zBoundary && pixelDepth < raster.getDepth(x,y)){
-                        raster.setDepth(x,y,pixelDepth);
-                        raster.setColor(x,y,(int)pixelDepth);
+                        raster.setDepth(x, y, pixelDepth);
+                        raster.setColor(x, y, (int)pixelDepth);
                     }
                 }
             }
@@ -49,7 +56,7 @@ class Rasteriser {
     private double pixelDepth(Projection projection, int x, int y){ //This implementation was just found from reasoning. There is probably a strictly mathematical way.
         //TODO: Check which neither Target-vector nor BC can be strictly vertical or horizontal
         Vertex[] projVert = projection.polygon.getVertices();
-        double[] targ = new double[] {x, y, 0}; //Target point without Z (unknown)
+        double[] targ = new double[] {x, y, 0}; //Target point without Z (ie. Z is unknown at this point)
 
         double[] intersectATarg_BC = intersectsAtXY(projVert[A].coordinates, targ, projVert[B].coordinates, projVert[C].coordinates);
         double[] interpolBC = interpolate(projVert[B].coordinates, projVert[C].coordinates, intersectATarg_BC[X], X);
