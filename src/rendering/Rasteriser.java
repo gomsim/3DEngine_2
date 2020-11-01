@@ -39,7 +39,6 @@ class Rasteriser {
         int yMin = yMapper.mapInt(projection.bounds.yMin);
         int yMax = yMapper.mapInt(projection.bounds.yMax);
 
-
         //TODO: Borde egentligen basera sina bounds på mappern!!
         for (int x = projection.bounds.xMin; x < projection.bounds.xMax; x++){
             for (int y = projection.bounds.yMin; y < projection.bounds.yMax; y++){

@@ -18,20 +18,28 @@ class Projection {
         polygon = new Polygon(a, b, c);
         bounds = getBounds(a, b, c);
     }
+    public Projection(Polygon polygon, Color color) {
+        this(
+                polygon.getVertices()[A],
+                polygon.getVertices()[B],
+                polygon.getVertices()[C],
+                color
+        );
+    }
     private Bounds getBounds(Vertex ... vertices){
-        int xMin = Integer.MAX_VALUE, xMax = Integer.MIN_VALUE;
-        int yMin = Integer.MAX_VALUE, yMax = Integer.MIN_VALUE;
+        float xMin = Integer.MAX_VALUE, xMax = Integer.MIN_VALUE;
+        float yMin = Integer.MAX_VALUE, yMax = Integer.MIN_VALUE;
         for (Vertex vertex: vertices){
             if (vertex.coordinates[X] < xMin)
-                xMin = Math.round((float)vertex.coordinates[X]);
-            else if (vertex.coordinates[X] > xMax)
-                xMax = Math.round((float)vertex.coordinates[X]);
+                xMin = (float)vertex.coordinates[X];
+            if (vertex.coordinates[X] > xMax)
+                xMax = (float)vertex.coordinates[X];
             if (vertex.coordinates[Y] < yMin)
-                yMin = Math.round((float)vertex.coordinates[Y]);
-            else if (vertex.coordinates[Y] > yMax)
-                yMax = Math.round((float)vertex.coordinates[Y]);
+                yMin = (float)vertex.coordinates[Y];
+            if (vertex.coordinates[Y] > yMax)
+                yMax = (float)vertex.coordinates[Y];
         }
-        return new Bounds(xMin, xMax, yMin, yMax);
+        return new Bounds(Math.round(xMin), Math.round(xMax), Math.round(yMin), Math.round(yMax));
     }
 
     static class Bounds{

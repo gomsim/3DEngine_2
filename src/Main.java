@@ -6,6 +6,8 @@ import engine.Engine;
 import static util.VectorUtil.*;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class Main {
@@ -349,6 +351,35 @@ public class Main {
         );
         greenlightBulb.setLuminescence(600);
         engine.add(greenlightBulb);*/
+
+        //FLOOR
+        /*int floorSize = 5000;
+        ArrayList<Polygon> lines = new ArrayList<>();
+        for (int x = 0; x < 4000; x+=100){
+                    lines.add(new Polygon(
+                            new Vertex(x+0,0,0),
+                            new Vertex(x+0,0,floorSize),
+                            new Vertex(x+3,0,0)));
+            lines.add(new Polygon(
+                            new Vertex(x+0,0,0),
+                            new Vertex(x+0,0,floorSize),
+                            new Vertex(x+3,0,floorSize)));
+            lines.add(new Polygon(
+                            new Vertex(0,0,3+x),
+                            new Vertex(floorSize,0,0+x),
+                            new Vertex(0,0,0+x)));
+            lines.add(new Polygon(
+                            new Vertex(0,0,3+x),
+                            new Vertex(floorSize,0,3+x),
+                            new Vertex(floorSize,0,0+x)));
+        }
+        Artifact floor = new Artifact(
+                -2000,
+                size/2,
+                -size*3,
+                Color.PINK,
+                lines.toArray(new Polygon[lines.size()]));
+        engine.add(floor);*/
 
         engine.run();
     }
