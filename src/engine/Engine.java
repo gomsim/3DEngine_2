@@ -9,11 +9,10 @@ import static util.VectorUtil.*;
 
 public class Engine {
 
-    public static Engine instance;
+    private static Engine instance;
     private Renderer renderer = new Renderer();
     private ArrayList<Artifact> artifacts = new ArrayList<>();
-    private ArrayList<Artifact> luminecents = new ArrayList<>();
-    public static final int FRAME_RATE = 60;
+    private static final int FRAME_RATE = 60;
     private double viewTiltAngle = 0;
 
     private Engine(){
@@ -26,20 +25,13 @@ public class Engine {
     }
 
     public void run(){
-        long startTime;
-        long duration;
-        int i = 0;
         while(true){
-            startTime = System.nanoTime();
             renderer.render(); //TODO: Threading problems here??
             try{
                 Thread.sleep(1000/FRAME_RATE);
             }catch(InterruptedException e){
                 e.printStackTrace();
             }
-            /*duration = System.nanoTime()-startTime;
-            if (++i % 60 == 0) // print current framerate to console
-                System.out.println(1000000000L/duration);*/
         }
     }
     public boolean add(Artifact ... artifact){
@@ -55,7 +47,6 @@ public class Engine {
     public void move(double[] vec){
         for (Artifact artifact: artifacts){
             artifact.translate(vec);
-            //System.out.println(artifact); //FOR TESTING
         }
     }
 
@@ -66,7 +57,6 @@ public class Engine {
 
         for (Artifact artifact: artifacts){
             artifact.rotate(rotationMatrix);
-            //System.out.println(artifact); //FOR TESTING
         }
     }
     private double[] correctForNaturalMovement(double[] degs){

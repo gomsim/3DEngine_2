@@ -15,7 +15,7 @@ class Camera {
     private static final double LENS_DISTANCE = 500;
 
     private static final int LENS_WIDTH = calculateLensWidth(VIEW_ANGLE, LENS_DISTANCE);
-    private static final int LENS_HEIGHT = calculateLensHeight(VIEW_ANGLE, LENS_DISTANCE);
+    private static final int LENS_HEIGHT = calculateLensHeight(LENS_WIDTH);
 
     private static final double[] CAMERA_OFFSET = new double[] {(double)SCREEN_WIDTH/2, (double)SCREEN_HEIGHT/2, 0};
 
@@ -24,8 +24,8 @@ class Camera {
     private static int calculateLensWidth(int viewAngle, double lensDistance){
         return (int)lensDistance * 2 * (viewAngle / 90);
     }
-    private static int calculateLensHeight(int viewAngle, double lensDistance){
-        return (int)lensDistance * 2 * (viewAngle / 90);
+    private static int calculateLensHeight(int lensWidth){
+        return (int)((9f/16) * lensWidth);
     }
 
     Raster capture(){
@@ -36,7 +36,6 @@ class Camera {
                 for (Polygon polygon: artifact.getPolygons()){
                     //if (/*!behindCamera(polygon) && facingCamera(polygon)*/){//TODO: Kommentera av när det är enklare att se saker i rendereingen
                         Projection projection = projectPolygon(artifact, polygon);
-                        //System.out.println("Projection to rasterize: \n" + projection.polygon);
                         rasteriser.rasterise(projection, LENS_DISTANCE);
                     //}
                 }

@@ -135,13 +135,21 @@ public class VectorUtil {
         if (axis != X && axis != Y && axis != Z){
             throw new IllegalGeometryException("Axis must be 0, 1 or 2. Got: " + axis);
         }
+        if (a[axis] == b[axis]){
+            throw new IllegalGeometryException("Impossible interpolation between [" + a[X] + "," + a[Y] + "," + a[Z] + "] and [" + b[X] + "," + b[Y] + "," + b[Z] + "] at axis " + (axis==0?"x":axis==1?"y":"z") + ":" + at);
+        }
         double[] deltaAB = vectorOf(a, b);
         at -= a[axis];
-        if (deltaAB[axis] == 0){
-            throw new IllegalGeometryException("Impossible interpolation between [" + a[X] + "," + a[Y] + "," + a[Z] + "] and [" + b[X] + "," + b[Y] + "," + b[Z] + "] at axis " + (axis==0?"x":axis==1?"y":"z") + ":" + (at + a[axis]));
-        }
         double ratioAt = at/deltaAB[axis];
         return add(multiply(deltaAB, ratioAt), a);
+    }
+    public static double[] interpolate(double[] a, double[] b, double[] at){ //TODO: Not always finding a valid axis to interpolate
+        //TODO: gets "IllegalGeometryException: Impossible interpolation between [1144.3718024985128,537.1046995835812,1682.0] and [1144.3718024985128,537.1046995835812,1682.0] at axis y:NaN"
+        int axis = 0;
+        while (axis < at.length - 1 && a[axis] == b[axis]){
+            axis++;
+        }
+        return interpolate(a, b, at[axis], axis);
     }
     public static double[] vectorOf(double[] from, double[] to){
         return subtract(to, from);

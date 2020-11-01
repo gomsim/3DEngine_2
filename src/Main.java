@@ -3,27 +3,12 @@ import components.Vertex;
 import components.Polygon;
 import engine.Engine;
 
-import static util.VectorUtil.*;
-
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class Main {
 
     public static void main(String[] args){
-        /*Projection projection = new Projection(
-                new Vertex(2,4,0),
-                new Vertex(2,0,1),
-                new Vertex(0,4,1)
-        );
-
-
-        double[] result = Rasteriser.pixelDepth(projection,1,3);
-        System.out.println("[" + result[X] + "," + result[Y] + "," + result[Z] + "]");*/
-
-
         Engine engine = Engine.instance();
 
         int size = 500;
@@ -67,26 +52,26 @@ public class Main {
         ));*/
 
         //Intersecting triangles
-        engine.add(
+        /*engine.add(
                 new Artifact(
                         -size/2,
                         -size/2,
                         500,
                         Color.RED,
-                        /*new Polygon(
+                        new Polygon(
                                 new Vertex(0,size,0),
                                 new Vertex(size/2,0,size),
-                                new Vertex(size,size,0)),*/
+                                new Vertex(size,size,0)),
                         new Polygon(
                                 new Vertex(0,size,yellowPos ),
                                 new Vertex(size/2,0,yellowPos ),
                                 new Vertex(size,size,yellowPos ))
-                ));
+                ));*/
 
         //Triangles side by side
         /*engine.add(new Artifact(
                 -size/2,
-                -size/2,ssssssssssssssssssssssssssssssssssssssssssss
+                -size/2,
                 500,
                 Color.RED,
                 new Polygon(
@@ -150,7 +135,7 @@ public class Main {
         ));*/
 
         //Large Tetrahedron
-        /*Artifact largeTetrahedron = new Artifact(
+        Artifact largeTetrahedron = new Artifact(
                 -bigSize/2,
                 -bigSize/2,
                 -bigSize/2,
@@ -172,7 +157,7 @@ public class Main {
                         new Vertex(bigSize,bigSize,0),
                         new Vertex(bigSize/2,bigSize,bigSize))
         );
-        engine.add(largeTetrahedron);*/
+        engine.add(largeTetrahedron);
 
         int cielingHeight = size*2;
         //Large Room
@@ -238,7 +223,7 @@ public class Main {
         ));*/
 
         //LARGE CUBE ROOM
-        /*Artifact largeCubeRoom = new Artifact(
+        Artifact largeCubeRoom = new Artifact(
                 -bigSize/2,
                 -bigSize + size/2,
                 -size/2,
@@ -298,7 +283,7 @@ public class Main {
                         new Vertex(bigSize,bigSize,bigSize),
                         new Vertex(0,bigSize,bigSize))
         );
-        engine.add(largeCubeRoom);*/
+        engine.add(largeCubeRoom);
 
         //LIGHT BULB
         /*size = 10;

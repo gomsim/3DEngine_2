@@ -21,8 +21,8 @@ class Rasteriser {
         this.lensHeigh = lensHeigh;
         this.imgWidth = imgWidth;
         this.imgHeight = imgHeight;
-        xMapper = new Mapper(lensWidth, imgWidth);
-        yMapper = new Mapper(lensHeigh, imgHeight);
+        xMapper = new Mapper(-(double)lensWidth/2,(double)lensWidth/2, 0, imgWidth);
+        yMapper = new Mapper(-(double)lensHeigh/2, (double)lensHeigh/2, 0, imgHeight);
     }
     void cleanRaster(){
         raster = new Raster(imgWidth, imgHeight);
@@ -46,7 +46,8 @@ class Rasteriser {
                     double pixelDepth = pixelDepth(projection, x, y);
                     if (pixelDepth > zBoundary && pixelDepth < raster.getDepth(x,y)){
                         raster.setDepth(x, y, pixelDepth);
-                        raster.setColor(x, y, (int)pixelDepth);
+                        double inverse = sigmoid(pixelDepth);
+                        raster.setColor(x, y, new Color((int)(projection.color.getRed()*inverse), (int)(projection.color.getGreen()*inverse), (int)(projection.color.getBlue()*inverse)).getRGB());
                     }
                 }
             }
@@ -58,14 +59,11 @@ class Rasteriser {
         double[] targ = new double[] {x, y, 0}; //Target point without Z (ie. Z is unknown at this point)
 
         double[] intersectATarg_BC = intersectsAtXY(projVert[A].coordinates, targ, projVert[B].coordinates, projVert[C].coordinates);
-        double[] interpolBC = interpolate(projVert[B].coordinates, projVert[C].coordinates, intersectATarg_BC[X], X);
 
-        targ = interpolate(projVert[A].coordinates, interpolBC, x, X); //Target point WITH Z
+        double[] interpolBC = interpolate(projVert[B].coordinates, projVert[C].coordinates, intersectATarg_BC);
+        targ = interpolate(projVert[A].coordinates, interpolBC, targ); //Target point WITH Z
 
         return targ[Z];
-    }
-    private int rasterisePixel(Projection projection, int x, int y){ //TODO: Set colorBuffer here, based on depthBuffer (whose closest to camera)
-        return -1;
     }
 
     private boolean outsideRaster(int x, int y){
@@ -79,7 +77,7 @@ class Rasteriser {
         double subArea2 = area(vertices[A].coordinates, new double[] {x,y}, vertices[C].coordinates);
         double subArea3 = area(new double[] {x,y}, vertices[B].coordinates, vertices[C].coordinates);
 
-        return (int)projArea == (int)(subArea1 + subArea2 + subArea3); //TODO: kan behöva filas på. Kan uppstå problem pga. fel med flyttal.
+        return (int)projArea == (int)(subArea1 + subArea2 + subArea3); //TODO: kan behöva filas på. Kan uppstå problem pga. gränsvärden vid flyttal.
     }
     private double area(double[] a, double[] b, double[] c){
         return Math.abs((a[X]*(b[Y] - c[Y]) + b[X]*(c[Y] - a[Y]) + c[X]*(a[Y] - b[Y])) / 2);
