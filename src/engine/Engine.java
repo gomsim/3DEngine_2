@@ -9,11 +9,16 @@ import static util.VectorUtil.*;
 
 public class Engine {
 
+    private static final int FRAME_RATE = 60;
+
     private static Engine instance;
+
     private Renderer renderer = new Renderer();
     private ArrayList<Artifact> artifacts = new ArrayList<>();
-    private static final int FRAME_RATE = 60;
     private double viewTiltAngle = 0;
+    private double[] translationBuffer = new double[NUM_DIMENSIONS];
+    private double[] rotationBuffer = new double[NUM_DIMENSIONS];
+    private double[] scalingBuffer = new double[NUM_DIMENSIONS];
 
     private Engine(){
         new GUI(renderer);
@@ -26,6 +31,8 @@ public class Engine {
 
     public void run(){
         while(true){
+            resolveTransformation();
+            cleanTransformationBuffers();
             renderer.render(); //TODO: Threading problems here??
             try{
                 Thread.sleep(1000/FRAME_RATE);
@@ -44,22 +51,44 @@ public class Engine {
 
     //TODO: MAJOR TODO!! I need to combine the rotation matrix, each vertex's position and the translation matrix into one in order to do a combined transformation calculation!!!!!!!!!
 
-    public void move(double[] vec){
+    /*public void move(double[] vec){
         for (Artifact artifact: artifacts){
             artifact.translate(vec);
         }
-    }
+    }*/
 
-    public void rotate(double[] degs){
-        degs = correctForNaturalMovement(degs);
+    /*public void rotate(double[] degs){
+        degs = correctForRealisticMovement(degs);
 
-        double[][] rotationMatrix = genRotMatrix(degs);
+        double[][] rotationMatrix = rotationMatrix(degs);
 
         for (Artifact artifact: artifacts){
             artifact.rotate(rotationMatrix);
         }
+    }*/
+
+    private void resolveTransformation(){
+        
     }
-    private double[] correctForNaturalMovement(double[] degs){
+
+
+    void moveCamera(double[] vec){
+        translationBuffer[X] += vec[X];
+        translationBuffer[Y] += vec[Y];
+        translationBuffer[Z] += vec[Z];
+    }
+    void rotate(double[] degs){
+        rotationBuffer[X] += degs[X];
+        rotationBuffer[Y] += degs[Y];
+        rotationBuffer[Z] += degs[Z];
+    }
+    private void cleanTransformationBuffers(){
+        translationBuffer = new double[NUM_DIMENSIONS];
+        rotationBuffer = new double[NUM_DIMENSIONS];
+        scalingBuffer = new double[NUM_DIMENSIONS];
+    }
+
+    private double[] correctForRealisticMovement(double[] degs){
         if (viewTiltAngle + degs[X] <= -90)
             degs[X] = -90 - viewTiltAngle;
         if (viewTiltAngle + degs[X] >= 90)
@@ -75,7 +104,7 @@ public class Engine {
             degs[Y] += degs[Z];
         return degs;
     }
-    private double[][] genRotMatrix(double[] degs){
+    private double[][] rotationMatrix(double[] degs){
         double rotX = Math.toRadians(degs[X]);
         double rotY = Math.toRadians(degs[Y]);
         double rotZ = Math.toRadians(degs[Z]);

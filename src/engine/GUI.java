@@ -18,12 +18,10 @@ public class GUI extends JFrame {
     private final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
 
     public GUI(Renderer renderer){
-        //super(getScreenConfiguration());
         setUpWindow();
 
         addKeyListener(new MoveListener());
         addMouseMotionListener(new MouseTurningListener());
-        //setOpacity(0.3f);//FOR TESTING
 
         renderer.setBounds(getX(),getY(),getWidth(),getHeight());
         add(renderer);
@@ -42,10 +40,6 @@ public class GUI extends JFrame {
         setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         setLayout(null);
         requestFocus();
-    }
-
-    private static GraphicsConfiguration getScreenConfiguration(){
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
     }
 
     private class MouseTurningListener extends MouseMotionAdapter{
