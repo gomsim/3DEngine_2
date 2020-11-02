@@ -1,5 +1,6 @@
 package engine;
 
+import components.Vertex;
 import rendering.Renderer;
 import components.Artifact;
 import java.util.ArrayList;
@@ -49,8 +50,6 @@ public class Engine {
         return artifacts;
     }
 
-    //TODO: MAJOR TODO!! I need to combine the rotation matrix, each vertex's position and the translation matrix into one in order to do a combined transformation calculation!!!!!!!!!
-
     /*public void move(double[] vec){
         for (Artifact artifact: artifacts){
             artifact.translate(vec);
@@ -67,8 +66,29 @@ public class Engine {
         }
     }*/
 
-    private void resolveTransformation(){
-        
+    private void resolveTransformation(){ //TODO: This fucking works!!!! Only for some reason translation doeasn't.
+        //TODO: Focking clean up these messy methods...
+        double[][] transMatrix = getTransformationMatrix();
+        for (Artifact artifact: artifacts){
+            for (Vertex vertex: artifact.getVertices()){
+                double[][] transformation = toMatrix(vertex.coordinates);
+                transformation = multiply(transMatrix, transformation);
+                tranferCoordinates(vertex.coordinates, transformation);
+            }
+            artifact.rotateWithoutNestling(transMatrix);
+        }
+    }
+    private double[][] toMatrix(double[] arr){ //TODO: Clean this shit up
+        double[][] matrix = new double[arr.length + 1][1];
+        matrix[X][0] = arr[X];
+        matrix[Y][0] = arr[Y];
+        matrix[Z][0] = arr[Z];
+        return matrix;
+    }
+    private void tranferCoordinates(double[] target, double[][] transformation){ //TODO: Clean this shit up
+        target[X] = transformation[X][0];
+        target[Y] = transformation[Y][0];
+        target[Z] = transformation[Z][0];
     }
 
 
@@ -77,7 +97,7 @@ public class Engine {
         translationBuffer[Y] += vec[Y];
         translationBuffer[Z] += vec[Z];
     }
-    void rotate(double[] degs){
+    void rotateCamera(double[] degs){
         rotationBuffer[X] += degs[X];
         rotationBuffer[Y] += degs[Y];
         rotationBuffer[Z] += degs[Z];
@@ -121,6 +141,23 @@ public class Engine {
                 {sinZ * cosY, sinZ * sinY * sinX + cosZ * cosX, sinZ * sinY * cosX - cosZ * sinX},
                 {-sinY, cosY * sinX, cosY * cosX}
         };
+    }
+    private double[][] getTransformationMatrix(){ //TODO: Leaves scaling out at the moment everywhere.
+        double[][] matrix = new double[NUM_DIMENSIONS + 1][NUM_DIMENSIONS + 1];
+        double[][] rotationMatrix = rotationMatrix(correctForRealisticMovement(rotationBuffer));
+        for (int y = 0; y < rotationMatrix.length; y++){
+            for (int x = 0; x < rotationMatrix[0].length; x++){
+                matrix[y][x] = rotationMatrix[y][x];
+            }
+        }
+        matrix[NUM_DIMENSIONS][X] = 0;
+        matrix[NUM_DIMENSIONS][Y] = 0;
+        matrix[NUM_DIMENSIONS][Z] = 0;
+        matrix[NUM_DIMENSIONS][Z + 1] = 1;
+        matrix[X][NUM_DIMENSIONS] = translationBuffer[X];
+        matrix[Y][NUM_DIMENSIONS] = translationBuffer[Y];
+        matrix[Z][NUM_DIMENSIONS] = translationBuffer[Z];
+        return matrix;
     }
 }
 

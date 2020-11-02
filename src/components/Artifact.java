@@ -1,9 +1,7 @@
 package components;
 
 import java.awt.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 import static util.VectorUtil.*;
 
@@ -69,6 +67,9 @@ public class Artifact {
     public HashSet<Polygon> getPolygons(){
         return polygons;
     }
+    public Collection<Vertex> getVertices(){
+        return vertices.values();
+    }
     public Color getColor(){
         return color;
     }
@@ -113,15 +114,26 @@ public class Artifact {
         }
         setBounds();
     }
+    public void rotateWithoutNestling(double[][] rot){ //TODO: Clean this shit up
+        double[] res = {
+                rot[X][0]*x + rot[X][1]*y + rot[X][2]*z,
+                rot[Y][0]*x + rot[Y][1]*y + rot[Y][2]*z,
+                rot[Z][0]*x + rot[Z][1]*y + rot[Z][2]*z
+        };
+
+        x = res[X];
+        y = res[Y];
+        z = res[Z];
+        setBounds();
+    }
 
     public void transform(double[] transVec, double[] scaleVec, double[][] rotMatrix){
         //TODO: Detta är bättre att göra när väl renderingen är på plats så att man ser om det funkar bra.
         // Tanken är att transform-metoden gör en samanslagen transformationsberäkning för alla tre transformationer.
         // Varje artefakt lär dock behöva göra sin egen beräkning, därav placeringen av metoden här istället för i Engine.
         // referens: https://www.youtube.com/watch?v=vQ60rFwh2ig
-        // referens https://en.wikipedia.org/wiki/3D_projection
     }
-    private void setBounds(){
+    public void setBounds(){
         if (polygons.isEmpty())
             return;
         double[] polygonsXMax = new double[polygons.size()];
@@ -132,6 +144,7 @@ public class Artifact {
         double[] polygonsZMin = new double[polygons.size()];
         int i = 0;
         for (Polygon polygon: polygons){
+            //TODO: Varför använder jag inte bara if-sateser här och ersätter polygonXMax med värdet om det är högra änhögsta värdet, t.ex.??
             polygonsXMax[i] = polygon.maxCoordinate(X);
             polygonsXMin[i] = polygon.minCoordinate(X);
             polygonsYMax[i] = polygon.maxCoordinate(Y);

@@ -30,6 +30,7 @@ public class Vertex {
         coordinates[Y] = result[Y];
         coordinates[Z] = result[Z];
     }
+
     public boolean equals(Object object){
         if (!(object instanceof Vertex))
             return false;

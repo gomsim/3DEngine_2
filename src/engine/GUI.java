@@ -62,7 +62,7 @@ public class GUI extends JFrame {
             }else{
                 double deltaX = ((double)(event.getX() - SCREEN_WIDTH/2)) / 10;
                 double deltaY = ((double)(event.getY() - SCREEN_HEIGHT/2)) / 10;
-                Engine.instance().rotate(new double[] {deltaY * TURNING_SPEED,-deltaX * TURNING_SPEED,0});
+                Engine.instance().rotateCamera(new double[] {deltaY * TURNING_SPEED,-deltaX * TURNING_SPEED,0});
                 robot.mouseMove(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
                 blockMouseEvents = true;
             }
@@ -98,7 +98,7 @@ public class GUI extends JFrame {
                         break;
                 }
             }
-            Engine.instance().move(offset);
+            Engine.instance().moveCamera(offset);
         }
         public void keyReleased(KeyEvent event){
             pressedKeys.remove(event.getKeyCode());
