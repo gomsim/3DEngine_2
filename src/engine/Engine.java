@@ -9,12 +9,11 @@ import static util.VectorUtil.*;
 
 public class Engine {
 
-    public static Engine instance;
+    private static Engine instance;
     private Renderer renderer = new Renderer();
     private ArrayList<Artifact> artifacts = new ArrayList<>();
-    private ArrayList<Artifact> luminecents = new ArrayList<>();
-    public static final int FRAME_RATE = 60;
-    private double viewAngle = 0; //TODO: Borde vara i renderer nånstans
+    private static final int FRAME_RATE = 60;
+    private double viewTiltAngle = 0;
 
     private Engine(){
         new GUI(renderer);
@@ -26,20 +25,13 @@ public class Engine {
     }
 
     public void run(){
-        long startTime;
-        long duration;
-        int i = 0;
         while(true){
-            startTime = System.nanoTime();
             renderer.render(); //TODO: Threading problems here??
             try{
                 Thread.sleep(1000/FRAME_RATE);
             }catch(InterruptedException e){
                 e.printStackTrace();
             }
-            duration = System.nanoTime()-startTime;
-            if (++i % 60 == 0) // print current framerate to console
-                System.out.println(1000000000L/duration);
         }
     }
     public boolean add(Artifact ... artifact){
@@ -55,7 +47,6 @@ public class Engine {
     public void move(double[] vec){
         for (Artifact artifact: artifacts){
             artifact.translate(vec);
-            System.out.println(artifact); //FOR TESTING
         }
     }
 
@@ -66,22 +57,21 @@ public class Engine {
 
         for (Artifact artifact: artifacts){
             artifact.rotate(rotationMatrix);
-            System.out.println(artifact); //FOR TESTING
         }
     }
     private double[] correctForNaturalMovement(double[] degs){
-        if (viewAngle + degs[X] <= -90)
-            degs[X] = -90 - viewAngle;
-        if (viewAngle + degs[X] >= 90)
-            degs[X] = 90 - viewAngle;
-        viewAngle += degs[X];
+        if (viewTiltAngle + degs[X] <= -90)
+            degs[X] = -90 - viewTiltAngle;
+        if (viewTiltAngle + degs[X] >= 90)
+            degs[X] = 90 - viewTiltAngle;
+        viewTiltAngle += degs[X];
 
-        double angle = viewAngle / 90;
+        double angle = viewTiltAngle / 90;
         degs[Z] = degs[Y]*angle;
 
-        if (viewAngle > 0) //Nedåt
+        if (viewTiltAngle > 0) //Nedåt
             degs[Y] += -degs[Z];
-        else if (viewAngle < 0) //Uppåt
+        else if (viewTiltAngle < 0) //Uppåt
             degs[Y] += degs[Z];
         return degs;
     }

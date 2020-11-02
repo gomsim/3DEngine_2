@@ -100,7 +100,7 @@ public class GUI extends JFrame {
                         offset[Y] += MOVEMENT_SPEED;
                         break;
                     case KeyEvent.VK_CONTROL:
-                        offset[Y] += -MOVEMENT_SPEED*5;
+                        offset[Y] += -MOVEMENT_SPEED;
                         break;
                 }
             }

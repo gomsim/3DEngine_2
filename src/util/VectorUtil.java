@@ -3,7 +3,8 @@ package util;
 public class VectorUtil {
 
     public static final int X = 0, Y = 1, Z = 2;
-    public static final int R = 0, G = 1, B = 2;
+    public static final int RED = 0, GREEN = 1, BLUE = 2;
+    public static final int A = 0, B = 1, C = 2;
     public static final int NUM_DIMENSIONS = 3;
     public static final double[] ORIGIN = {0,0,0};
 
@@ -115,6 +116,44 @@ public class VectorUtil {
     public static double angleBetween(double[] v1, double[] v2){
         return Math.acos(VectorUtil.dotProduct(v1,v2)/(VectorUtil.length(v1)*VectorUtil.length(v2)));
     }
+    public static double[] intersectsAtXY(double[] v1a, double[] v1b, double[] v2a, double[] v2b){ //This one feels CONTRIIIIIIVED...
+        double[] intersection = new double[NUM_DIMENSIONS - 1];
+        intersection[X] =
+                ((v1a[X]*v1b[Y] - v1a[Y]*v1b[X])*(v2a[X] - v2b[X]) -
+                (v2a[X]*v2b[Y] - v2a[Y]*v2b[X])*(v1a[X] - v1b[X])) /
+                ((v1a[X] - v1b[X])*(v2a[Y] - v2b[Y]) -
+                (v2a[X] - v2b[X])*(v1a[Y] - v1b[Y]));
+
+        intersection[Y] =
+                ((v1a[X]*v1b[Y] - v1a[Y]*v1b[X])*(v2a[Y] - v2b[Y]) -
+                (v2a[X]*v2b[Y] - v2a[Y]*v2b[X])*(v1a[Y] - v1b[Y])) /
+                ((v1a[X] - v1b[X])*(v2a[Y] - v2b[Y]) -
+                (v2a[X] - v2b[X])*(v1a[Y] - v1b[Y]));
+        return intersection;
+    }
+    public static double[] interpolate(double[] a, double[] b, double at, int axis){
+        if (axis != X && axis != Y && axis != Z){
+            throw new IllegalGeometryException("Axis must be 0, 1 or 2. Got: " + axis);
+        }
+        if (a[axis] == b[axis]){
+            throw new IllegalGeometryException("Impossible interpolation between [" + a[X] + "," + a[Y] + "," + a[Z] + "] and [" + b[X] + "," + b[Y] + "," + b[Z] + "] at axis " + (axis==0?"x":axis==1?"y":"z") + ":" + at);
+        }
+        double[] deltaAB = vectorOf(a, b);
+        at -= a[axis];
+        double ratioAt = at/deltaAB[axis];
+        return add(multiply(deltaAB, ratioAt), a);
+    }
+    public static double[] interpolate(double[] a, double[] b, double[] at){ //TODO: Not always finding a valid axis to interpolate
+        //TODO: gets "IllegalGeometryException: Impossible interpolation between [1144.3718024985128,537.1046995835812,1682.0] and [1144.3718024985128,537.1046995835812,1682.0] at axis y:NaN"
+        int axis = 0;
+        while (axis < at.length - 1 && a[axis] == b[axis]){
+            axis++;
+        }
+        return interpolate(a, b, at[axis], axis);
+    }
+    public static double[] vectorOf(double[] from, double[] to){
+        return subtract(to, from);
+    }
     public static int normalAxis(double[] normal){
         if (normal[X] != 0)
             return X;
@@ -127,5 +166,8 @@ public class VectorUtil {
     }
     public static double inverseSquare(double distance){
         return 1/(Math.pow(distance,2));
+    }
+    public static double sigmoid(double distance){
+        return 1/(1 + Math.exp(-distance));
     }
 }
