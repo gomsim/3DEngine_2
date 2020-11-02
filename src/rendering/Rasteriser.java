@@ -46,8 +46,8 @@ class Rasteriser {
                     double pixelDepth = pixelDepth(projection, x, y);
                     if (pixelDepth > zBoundary && pixelDepth < raster.getDepth(x,y)){
                         raster.setDepth(x, y, pixelDepth);
-                        double inverse = sigmoid(pixelDepth);
-                        raster.setColor(x, y, new Color((int)(projection.color.getRed()*inverse), (int)(projection.color.getGreen()*inverse), (int)(projection.color.getBlue()*inverse)).getRGB());
+                        raster.setColor(x, y, (int)(pixelDepth));
+                        //raster.setColor(x, y, new Color((int)(projection.color.getRed()*inverse), (int)(projection.color.getGreen()*inverse), (int)(projection.color.getBlue()*inverse)).getRGB());
                     }
                 }
             }

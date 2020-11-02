@@ -36,7 +36,11 @@ class Camera {
                 for (Polygon polygon: artifact.getPolygons()){
                     //if (/*!behindCamera(polygon) && facingCamera(polygon)*/){//TODO: Kommentera av när det är enklare att se saker i rendereingen
                         Projection projection = projectPolygon(artifact, polygon);
-                        rasteriser.rasterise(projection, LENS_DISTANCE);
+                    /*System.out.println("-----------------RENBDERING-------------- ");
+                    System.out.println("Polygon: " + polygon);
+                    System.out.println("Projection: " + projection.polygon);
+                    System.out.println("----------------------------------------- ");*/
+                    rasteriser.rasterise(projection, LENS_DISTANCE);
                     //}
                 }
             }
@@ -53,8 +57,8 @@ class Camera {
         return new Projection(polygon, artifact.getColor());
     }
     private Vertex projectVertex(Artifact artifact, Vertex vertex){
-        double[] coordinates = artifact.localPointToGlobal(vertex.coordinates);//TODO: Måste lägga till CAMERA_OFFSET för att polygonerna skall projicera till camerans position istället för ORIGIN
-        double[] interpolation = interpolate(coordinates, ORIGIN, LENS_DISTANCE, Z); //TODO: Egentligen vill jag flytta projicerinen och inte kameran, menmen...
+        double[] coordinates = artifact.localPointToGlobal(vertex.coordinates);
+        double[] interpolation = interpolate(coordinates, ORIGIN, LENS_DISTANCE, Z);
         return new Vertex(
                 interpolation[X],
                 interpolation[Y],

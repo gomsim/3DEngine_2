@@ -16,8 +16,8 @@ public class Main {
         int bigSize = size * 5;
         int yellowPos = 200;
 
-        //Triangles behind each other
-        /*engine.add(
+        //Triangles behind each other and green wall
+        engine.add(
                 new Artifact(
                 -size/2,
                 -size/2,
@@ -49,7 +49,7 @@ public class Main {
                         new Vertex(0,0,wallLength),
                         new Vertex(0,0,0),
                         new Vertex(0,size,wallLength))
-        ));*/
+        ));
 
         //Intersecting triangles
         /*engine.add(
@@ -66,7 +66,7 @@ public class Main {
                                 new Vertex(0,size,yellowPos ),
                                 new Vertex(size/2,0,yellowPos ),
                                 new Vertex(size,size,yellowPos ))
-                ));*/
+        ));*/
 
         //Triangles side by side
         /*engine.add(new Artifact(
@@ -135,7 +135,7 @@ public class Main {
         ));*/
 
         //Large Tetrahedron
-        Artifact largeTetrahedron = new Artifact(
+        /*Artifact largeTetrahedron = new Artifact(
                 -bigSize/2,
                 -bigSize/2,
                 -bigSize/2,
@@ -157,7 +157,7 @@ public class Main {
                         new Vertex(bigSize,bigSize,0),
                         new Vertex(bigSize/2,bigSize,bigSize))
         );
-        engine.add(largeTetrahedron);
+        engine.add(largeTetrahedron);*/
 
         int cielingHeight = size*2;
         //Large Room
@@ -223,7 +223,7 @@ public class Main {
         ));*/
 
         //LARGE CUBE ROOM
-        Artifact largeCubeRoom = new Artifact(
+        /*Artifact largeCubeRoom = new Artifact(
                 -bigSize/2,
                 -bigSize + size/2,
                 -size/2,
@@ -283,7 +283,7 @@ public class Main {
                         new Vertex(bigSize,bigSize,bigSize),
                         new Vertex(0,bigSize,bigSize))
         );
-        engine.add(largeCubeRoom);
+        engine.add(largeCubeRoom);*/
 
         //LIGHT BULB
         /*size = 10;
