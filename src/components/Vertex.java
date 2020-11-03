@@ -31,6 +31,12 @@ public class Vertex {
         coordinates[Z] = result[Z];
     }
 
+    public void translate(double[] dir){
+        coordinates[X] += dir[X];
+        coordinates[Y] += dir[Y];
+        coordinates[Z] += dir[Z];
+    }
+
     public boolean equals(Object object){
         if (!(object instanceof Vertex))
             return false;

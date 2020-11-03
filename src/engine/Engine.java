@@ -43,39 +43,36 @@ public class Engine {
         }
     }
     public boolean add(Artifact ... artifact){
-        boolean success = artifacts.addAll(Arrays.asList(artifact));
-        return success;
+        return artifacts.addAll(Arrays.asList(artifact));
     }
     public ArrayList<Artifact> getArtifacts(){
         return artifacts;
     }
 
-    /*public void move(double[] vec){
+    /*private void resolveTransformation(){ //Alternativ variant som fungerar fint
         for (Artifact artifact: artifacts){
-            artifact.translate(vec);
+            artifact.translate(translationBuffer);
         }
-    }*/
 
-    /*public void rotate(double[] degs){
-        degs = correctForRealisticMovement(degs);
-
-        double[][] rotationMatrix = rotationMatrix(degs);
-
+        rotationBuffer = correctForRealisticMovement(rotationBuffer);
+        double[][] rotationMatrix = rotationMatrix(rotationBuffer);
         for (Artifact artifact: artifacts){
             artifact.rotate(rotationMatrix);
         }
     }*/
-
     private void resolveTransformation(){ //TODO: This fucking works!!!! Only for some reason translation doeasn't.
         //TODO: Focking clean up these messy methods...
         double[][] transMatrix = getTransformationMatrix();
         for (Artifact artifact: artifacts){
             for (Vertex vertex: artifact.getVertices()){
-                double[][] transformation = toMatrix(vertex.coordinates);
+                double[][] transformation = toMatrix(artifact.localPointToGlobal(vertex.coordinates));
                 transformation = multiply(transMatrix, transformation);
-                tranferCoordinates(vertex.coordinates, transformation);
+                tranferCoordinates(artifact, vertex, transformation);
             }
-            artifact.rotateWithoutNestling(transMatrix);
+            artifact.setBounds();
+        }
+        for (Artifact artifact: artifacts){
+            artifact.translate(translationBuffer);
         }
     }
     private double[][] toMatrix(double[] arr){ //TODO: Clean this shit up
@@ -85,10 +82,12 @@ public class Engine {
         matrix[Z][0] = arr[Z];
         return matrix;
     }
-    private void tranferCoordinates(double[] target, double[][] transformation){ //TODO: Clean this shit up
-        target[X] = transformation[X][0];
-        target[Y] = transformation[Y][0];
-        target[Z] = transformation[Z][0];
+    private void tranferCoordinates(Artifact artifact, Vertex vertex, double[][] transformation){ //TODO: Clean this shit up
+        vertex.coordinates = artifact.globalPointToLocal(new double[] {
+                transformation[X][0],
+                transformation[Y][0],
+                transformation[Z][0]
+        });
     }
 
 

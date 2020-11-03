@@ -134,6 +134,35 @@ public class Artifact {
         // referens: https://www.youtube.com/watch?v=vQ60rFwh2ig
     }
     public void setBounds(){
+        if (vertices.isEmpty())
+            return;
+        double xMax = Double.MIN_VALUE, yMax = Double.MIN_VALUE, zMax = Double.MIN_VALUE;
+        double xMin = Double.MAX_VALUE, yMin = Double.MAX_VALUE, zMin = Double.MAX_VALUE;
+        for (Vertex vertex: vertices.values()){
+            if (vertex.coordinates[X] < xMin)
+                xMin = vertex.coordinates[X];
+            if (vertex.coordinates[X] > xMax)
+                xMax = vertex.coordinates[X];
+            if (vertex.coordinates[Y] < yMin)
+                yMin = vertex.coordinates[Y];
+            if (vertex.coordinates[Y] > yMax)
+                yMax = vertex.coordinates[Y];
+            if (vertex.coordinates[Z] < zMin)
+                zMin = vertex.coordinates[Z];
+            if (vertex.coordinates[Z] > zMax)
+                zMax = vertex.coordinates[Z];
+        }
+        x += xMin;
+        y += yMin;
+        z += zMin;
+        width = (xMax - xMin);
+        height = (yMax - yMin);
+        depth = (zMax - zMin);
+        for (Vertex vertex: vertices.values()){
+            vertex.translate(new double[] {-xMin,-yMin,-zMin});
+        }
+    }
+    /*public void setBounds(){ //Old version that still works
         if (polygons.isEmpty())
             return;
         double[] polygonsXMax = new double[polygons.size()];
@@ -169,7 +198,7 @@ public class Artifact {
         for (Polygon polygon: polygons){
             polygon.translate(new double[] {-polygonsXMin[0],-polygonsYMin[0],-polygonsZMin[0]});
         }
-    }
+    }*/
     public String toString(){
         StringBuilder builder = new StringBuilder();
         //builder.append(color+" ["+x+" "+y+" "+z+"] ("+width+" "+height+" "+depth+")");
