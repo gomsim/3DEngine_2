@@ -17,7 +17,7 @@ public class Main {
         int yellowPos = 200;
 
         //Triangles behind each other and green wall
-        engine.add(
+        /*engine.add(
                 new Artifact(
                 -size/2,
                 -size/2,
@@ -49,12 +49,51 @@ public class Main {
                         new Vertex(0,0,wallLength),
                         new Vertex(0,0,0),
                         new Vertex(0,size,wallLength))
+        ));*/
+
+        //Wall SINGLE ARTIFACT
+        /*engine.add( new Artifact(
+                -size/2,
+                -size/2,
+                size*1,
+                Color.GREEN,
+                new Polygon(
+                        new Vertex(0,size,wallLength),
+                        new Vertex(0,0,0),
+                        new Vertex(0,size,0)),
+                new Polygon(
+                        new Vertex(0,0,wallLength),
+                        new Vertex(0,0,0),
+                        new Vertex(0,size,wallLength))
         ));
 
-        //Intersecting triangles
+        //Wall SEPARATE ARTIFACTS
+        engine.add(
+        new Artifact(
+                size/2,
+                -size/2,
+                size*1,
+                Color.GREEN,
+                new Polygon(
+                        new Vertex(0,size,wallLength),
+                        new Vertex(0,0,0),
+                        new Vertex(0,size,0))),
+        new Artifact(
+                size,
+                -size/2,
+                size*1,
+                Color.GREEN,
+                new Polygon(
+                        new Vertex(0,0,wallLength),
+                        new Vertex(0,0,0),
+                        new Vertex(0,size,wallLength))
+                )
+        );*/
+
+        //Intersecting triangles SINGLE ARTIFACT
         /*engine.add(
                 new Artifact(
-                        -size/2,
+                        size*2,
                         -size/2,
                         500,
                         Color.RED,
@@ -67,6 +106,31 @@ public class Main {
                                 new Vertex(size/2,0,yellowPos ),
                                 new Vertex(size,size,yellowPos ))
         ));*/
+
+        //Intersecting triangles SEPARATE ARTIFACTS
+        /*engine.add(
+                new Artifact(
+                        -size,
+                        -size/2,
+                        500,
+                        Color.RED,
+                        new Polygon(
+                                new Vertex(0,size,0),
+                                new Vertex(size/2,0,size),
+                                new Vertex(size,size,0))
+                ),
+                new Artifact(
+                        -size,
+                        -size/2,
+                        500,
+                        Color.RED,
+                        new Polygon(
+                                new Vertex(0,size,yellowPos ),
+                                new Vertex(size/2,0,yellowPos ),
+                                new Vertex(size,size,yellowPos ))
+                )
+        );*/
+
 
         //Triangles side by side
         /*engine.add(new Artifact(
@@ -135,7 +199,7 @@ public class Main {
         ));*/
 
         //Large Tetrahedron
-        /*Artifact largeTetrahedron = new Artifact(
+        Artifact largeTetrahedron = new Artifact(
                 -bigSize/2,
                 -bigSize/2,
                 -bigSize/2,
@@ -157,7 +221,7 @@ public class Main {
                         new Vertex(bigSize,bigSize,0),
                         new Vertex(bigSize/2,bigSize,bigSize))
         );
-        engine.add(largeTetrahedron);*/
+        engine.add(largeTetrahedron);
 
         int cielingHeight = size*2;
         //Large Room

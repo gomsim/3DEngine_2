@@ -54,7 +54,6 @@ class Rasteriser {
         }
     }
     private double pixelDepth(Projection projection, int x, int y){ //This implementation was just found from reasoning. There is probably a strictly mathematical way.
-        //TODO: Check which neither Target-vector nor BC can be strictly vertical or horizontal
         Vertex[] projVert = projection.polygon.getVertices();
         double[] targ = new double[] {x, y, 0}; //Target point without Z (ie. Z is unknown at this point)
 
