@@ -36,10 +36,10 @@ class Camera {
                 for (Polygon polygon: artifact.getPolygons()){
                     //if (/*!behindCamera(polygon) && facingCamera(polygon)*/){//TODO: Kommentera av när det är enklare att se saker i rendereingen
                         Projection projection = projectPolygon(artifact, polygon);
-                    System.out.println("-----------------RENBDERING-------------- ");
-                    System.out.println("Polygon: " + polygon);
-                    System.out.println("Projection: " + projection.polygon);
-                    System.out.println("----------------------------------------- ");
+                        /*System.out.println("-----------------RENBDERING-------------- ");
+                        System.out.println("Polygon: " + polygon);
+                        System.out.println("Projection: " + projection.polygon);
+                        System.out.println("----------------------------------------- ");*/
                         rasteriser.rasterise(projection, LENS_DISTANCE);
                     //}
                 }

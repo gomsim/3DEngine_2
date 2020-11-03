@@ -49,41 +49,27 @@ public class Engine {
         return artifacts;
     }
 
-    /*private void resolveTransformation(){ //Alternativ variant som fungerar fint
-        for (Artifact artifact: artifacts){
-            artifact.translate(translationBuffer);
-        }
-
-        rotationBuffer = correctForRealisticMovement(rotationBuffer);
-        double[][] rotationMatrix = rotationMatrix(rotationBuffer);
-        for (Artifact artifact: artifacts){
-            artifact.rotate(rotationMatrix);
-        }
-    }*/
-    private void resolveTransformation(){ //TODO: This fucking works!!!! Only for some reason translation doeasn't.
-        //TODO: Focking clean up these messy methods...
+    private void resolveTransformation(){
         double[][] transMatrix = getTransformationMatrix();
         for (Artifact artifact: artifacts){
             for (Vertex vertex: artifact.getVertices()){
-                double[][] transformation = toMatrix(artifact.localPointToGlobal(vertex.coordinates));
+                double[][] transformation = vecToOneDMatrix(artifact.localPointToGlobal(vertex.coordinates));
                 transformation = multiply(transMatrix, transformation);
-                tranferCoordinates(artifact, vertex, transformation);
+                vertex.coordinates = oneDMatrixToVec(artifact, transformation);
             }
             artifact.setBounds();
         }
-        for (Artifact artifact: artifacts){
-            artifact.translate(translationBuffer);
-        }
     }
-    private double[][] toMatrix(double[] arr){ //TODO: Clean this shit up
+    private double[][] vecToOneDMatrix(double[] arr){
         double[][] matrix = new double[arr.length + 1][1];
         matrix[X][0] = arr[X];
         matrix[Y][0] = arr[Y];
         matrix[Z][0] = arr[Z];
+        matrix[NUM_DIMENSIONS][0] = 1;
         return matrix;
     }
-    private void tranferCoordinates(Artifact artifact, Vertex vertex, double[][] transformation){ //TODO: Clean this shit up
-        vertex.coordinates = artifact.globalPointToLocal(new double[] {
+    private double[] oneDMatrixToVec(Artifact artifact, double[][] transformation){
+        return artifact.globalPointToLocal(new double[] {
                 transformation[X][0],
                 transformation[Y][0],
                 transformation[Z][0]

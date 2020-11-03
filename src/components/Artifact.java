@@ -114,25 +114,7 @@ public class Artifact {
         }
         setBounds();
     }
-    public void rotateWithoutNestling(double[][] rot){ //TODO: Clean this shit up
-        double[] res = {
-                rot[X][0]*x + rot[X][1]*y + rot[X][2]*z,
-                rot[Y][0]*x + rot[Y][1]*y + rot[Y][2]*z,
-                rot[Z][0]*x + rot[Z][1]*y + rot[Z][2]*z
-        };
 
-        x = res[X];
-        y = res[Y];
-        z = res[Z];
-        setBounds();
-    }
-
-    public void transform(double[] transVec, double[] scaleVec, double[][] rotMatrix){
-        //TODO: Detta är bättre att göra när väl renderingen är på plats så att man ser om det funkar bra.
-        // Tanken är att transform-metoden gör en samanslagen transformationsberäkning för alla tre transformationer.
-        // Varje artefakt lär dock behöva göra sin egen beräkning, därav placeringen av metoden här istället för i Engine.
-        // referens: https://www.youtube.com/watch?v=vQ60rFwh2ig
-    }
     public void setBounds(){
         if (vertices.isEmpty())
             return;
@@ -162,43 +144,7 @@ public class Artifact {
             vertex.translate(new double[] {-xMin,-yMin,-zMin});
         }
     }
-    /*public void setBounds(){ //Old version that still works
-        if (polygons.isEmpty())
-            return;
-        double[] polygonsXMax = new double[polygons.size()];
-        double[] polygonsXMin = new double[polygons.size()];
-        double[] polygonsYMax = new double[polygons.size()];
-        double[] polygonsYMin = new double[polygons.size()];
-        double[] polygonsZMax = new double[polygons.size()];
-        double[] polygonsZMin = new double[polygons.size()];
-        int i = 0;
-        for (Polygon polygon: polygons){
-            //TODO: Varför använder jag inte bara if-sateser här och ersätter polygonXMax med värdet om det är högra änhögsta värdet, t.ex.??
-            polygonsXMax[i] = polygon.maxCoordinate(X);
-            polygonsXMin[i] = polygon.minCoordinate(X);
-            polygonsYMax[i] = polygon.maxCoordinate(Y);
-            polygonsYMin[i] = polygon.minCoordinate(Y);
-            polygonsZMax[i] = polygon.maxCoordinate(Z);
-            polygonsZMin[i] = polygon.minCoordinate(Z);
-            i++;
-        }
-        Arrays.sort(polygonsXMax);
-        Arrays.sort(polygonsXMin);
-        Arrays.sort(polygonsYMax);
-        Arrays.sort(polygonsYMin);
-        Arrays.sort(polygonsZMax);
-        Arrays.sort(polygonsZMin);
-        //TODO: The +1 from Polygon could probably go in here to accomodate the bounds to the polygon instead of the other way around.
-        x += polygonsXMin[0];
-        y += polygonsYMin[0];
-        z += polygonsZMin[0];
-        width = (polygonsXMax[polygonsXMax.length-1] - polygonsXMin[0]);
-        height = (polygonsYMax[polygonsYMax.length-1] - polygonsYMin[0]);
-        depth = (polygonsZMax[polygonsZMax.length-1] - polygonsZMin[0]);
-        for (Polygon polygon: polygons){
-            polygon.translate(new double[] {-polygonsXMin[0],-polygonsYMin[0],-polygonsZMin[0]});
-        }
-    }*/
+
     public String toString(){
         StringBuilder builder = new StringBuilder();
         //builder.append(color+" ["+x+" "+y+" "+z+"] ("+width+" "+height+" "+depth+")");
