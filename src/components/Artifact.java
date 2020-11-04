@@ -34,6 +34,7 @@ public class Artifact {
                 else
                     polygonVertices[i] = vertices.get(polygonVertices[i].hashCode());
             }
+            polygon.setArt(this);
             this.polygons.add(polygon);
         }
     }

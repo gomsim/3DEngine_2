@@ -4,6 +4,7 @@ import components.Polygon;
 import engine.Engine;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 
 public class Main {
@@ -52,7 +53,7 @@ public class Main {
         ));*/
 
         //Wall SINGLE ARTIFACT
-        /*engine.add( new Artifact(
+        engine.add( new Artifact(
                 -size/2,
                 -size/2,
                 size*1,
@@ -68,7 +69,7 @@ public class Main {
         ));
 
         //Wall SEPARATE ARTIFACTS
-        engine.add(
+        /*engine.add(
         new Artifact(
                 size/2,
                 -size/2,
@@ -175,7 +176,7 @@ public class Main {
         ));*/
 
         //Tetrahedron
-        /*engine.add(new Artifact(
+        engine.add(new Artifact(
                 -size/2,
                 -size/2,
                 1000,
@@ -196,10 +197,10 @@ public class Main {
                         new Vertex(0,size,0),
                         new Vertex(size,size,0),
                         new Vertex(size/2,size,size))
-        ));*/
+        ));
 
         //Large Tetrahedron
-        Artifact largeTetrahedron = new Artifact(
+        /*Artifact largeTetrahedron = new Artifact(
                 -bigSize/2,
                 -bigSize/2,
                 -bigSize/2,
@@ -221,7 +222,7 @@ public class Main {
                         new Vertex(bigSize,bigSize,0),
                         new Vertex(bigSize/2,bigSize,bigSize))
         );
-        engine.add(largeTetrahedron);
+        engine.add(largeTetrahedron);*/
 
         int cielingHeight = size*2;
         //Large Room

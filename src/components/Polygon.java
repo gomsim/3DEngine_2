@@ -7,6 +7,7 @@ import static util.VectorUtil.*;
 public class Polygon {
 
     private Vertex[] vertices = new Vertex[NUM_DIMENSIONS];
+    private Artifact art;
 
     public Polygon(Vertex a, Vertex b, Vertex c) {
         vertices[A] = a;
@@ -64,11 +65,15 @@ public class Polygon {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         for (Vertex vertex : vertices) {
-            builder.append(vertex);
+            double[] coor = art == null? vertex.coordinates:art.localPointToGlobal(vertex.coordinates);//For testing...
+            builder.append(new Vertex(coor[X], coor[Y], coor[Z]));
             builder.append("\n");
         }
         builder.append("   ---   ");
         return builder.toString();
+    }
+    public void setArt(Artifact parejt){//FOR TESTING
+        art = parejt;
     }
 }
 

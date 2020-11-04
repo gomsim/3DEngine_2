@@ -17,6 +17,9 @@ public class Vertex {
         coordinates[Y] = y + MARGIN;
         coordinates[Z] = z + MARGIN;
     }
+    public Vertex(double[] coordinates){
+        this(coordinates[X], coordinates[Y], coordinates[Z]);
+    }
     public double[] asVector(){
         return new double[] {coordinates[X],coordinates[Y],coordinates[Z]};
     }
