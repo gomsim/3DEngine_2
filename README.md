@@ -5,4 +5,4 @@ Improvements upon my last 3D engine consists of, among other things, joint calcu
 
 This represents the stage at which the development of the engine rests at the moment:
 
-![Example](https://j.gifs.com/XL4VNk.gif)
+![Example](https://j.gifs.com/q7N8y3.gif)
