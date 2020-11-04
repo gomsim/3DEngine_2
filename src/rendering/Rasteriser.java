@@ -47,11 +47,18 @@ class Rasteriser {
                     if (pixelDepth > zBoundary && pixelDepth < raster.getDepth(x,y)){
                         raster.setDepth(x, y, pixelDepth);
                         raster.setColor(x, y, (int)(pixelDepth));
-                        //raster.setColor(x, y, new Color((int)(projection.color.getRed()*inverse), (int)(projection.color.getGreen()*inverse), (int)(projection.color.getBlue()*inverse)).getRGB());
+                        raster.setColor(x, y, getColorByDistance(projection.color, pixelDepth)); //TODO: colorByDist is only temporary!!
                     }
                 }
             }
         }
+    }
+    private int getColorByDistance(Color color, double dist){//TODO: This is only temporary
+        dist /= 800;
+        int red = color.getRed()/dist < 0? 0:color.getRed()/dist >= 255? 255:(int)(color.getRed()/dist);
+        int green = color.getGreen()/dist < 0? 0:color.getGreen()/dist >= 255? 255:(int)(color.getGreen()/dist);
+        int blue = color.getBlue()/dist < 0? 0:color.getBlue()/dist >= 255? 255:(int)(color.getBlue()/dist);
+        return new Color(red, green, blue).getRGB();
     }
     private double pixelDepth(Projection projection, int x, int y){ //This implementation was just found from reasoning. There is probably a strictly mathematical way.
         Vertex[] projVert = projection.polygon.getVertices();
