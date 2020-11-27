@@ -53,7 +53,7 @@ public class Main {
         ));*/
 
         //Wall SINGLE ARTIFACT
-        engine.add( new Artifact(
+        /*engine.add( new Artifact(
                 -size/2,
                 -size/2,
                 size*1,
@@ -66,7 +66,7 @@ public class Main {
                         new Vertex(0,0,wallLength),
                         new Vertex(0,0,0),
                         new Vertex(0,size,wallLength))
-        ));
+        ));*/
 
         //Wall SEPARATE ARTIFACTS
         /*engine.add(
@@ -176,7 +176,7 @@ public class Main {
         ));*/
 
         //Tetrahedron
-        engine.add(new Artifact(
+        /*engine.add(new Artifact(
                 -size/2,
                 -size/2,
                 1000,
@@ -197,7 +197,7 @@ public class Main {
                         new Vertex(0,size,0),
                         new Vertex(size,size,0),
                         new Vertex(size/2,size,size))
-        ));
+        ));*/
 
         //Large Tetrahedron
         /*Artifact largeTetrahedron = new Artifact(
@@ -430,6 +430,196 @@ public class Main {
                 Color.PINK,
                 lines.toArray(new Polygon[lines.size()]));
         engine.add(floor);*/
+
+        int eyeDistance = 600*2;
+        int smileySize = 200*2;
+        int mouthDistance = 1000*2;
+        //Smiley
+        engine.add(
+                //left eye
+                new Artifact(
+                -eyeDistance/2,
+                -size/2,
+                500,
+                Color.ORANGE,
+                        //FRONT
+                        new Polygon(
+                                new Vertex(0,0,0),
+                                new Vertex(smileySize,0,0),
+                                new Vertex(0,smileySize*2,0)),
+                        new Polygon(
+                                new Vertex(smileySize,0,0),
+                                new Vertex(0,smileySize*2,0),
+                                new Vertex(smileySize,smileySize*2,0)),
+                        //BACK
+                        new Polygon(
+                                new Vertex(0,0,smileySize),
+                                new Vertex(smileySize,0,smileySize),
+                                new Vertex(0,smileySize*2,smileySize)),
+                        new Polygon(
+                                new Vertex(smileySize,0,smileySize),
+                                new Vertex(0,smileySize*2,smileySize),
+                                new Vertex(smileySize,smileySize*2,smileySize)),
+                        //LEFT
+                        new Polygon(
+                                new Vertex(0,0,0),
+                                new Vertex(0,smileySize*2,0),
+                                new Vertex(0,smileySize*2,smileySize)),
+                        new Polygon(
+                                new Vertex(0,0,0),
+                                new Vertex(0,smileySize*2,smileySize),
+                                new Vertex(0,0,smileySize)),
+                        //RIGHT
+                        new Polygon(
+                                new Vertex(smileySize,0,0),
+                                new Vertex(smileySize,smileySize*2,0),
+                                new Vertex(smileySize,smileySize*2,smileySize)),
+                        new Polygon(
+                                new Vertex(smileySize,0,0),
+                                new Vertex(smileySize,smileySize*2,smileySize),
+                                new Vertex(smileySize,0,smileySize)),
+                        //UP
+                        new Polygon(
+                                new Vertex(0,0,0),
+                                new Vertex(smileySize,0,0),
+                                new Vertex(0,0,smileySize)),
+                        new Polygon(
+                                new Vertex(smileySize,0,0),
+                                new Vertex(smileySize,0,smileySize),
+                                new Vertex(0,0,smileySize)),
+                        //DOWN
+                        new Polygon(
+                                new Vertex(0,smileySize*2,0),
+                                new Vertex(smileySize,smileySize*2,0),
+                                new Vertex(0,smileySize*2,smileySize)),
+                        new Polygon(
+                                new Vertex(smileySize,smileySize*2,0),
+                                new Vertex(smileySize,smileySize*2,smileySize),
+                                new Vertex(0,smileySize*2,smileySize))
+                ),
+                //right eye
+                new Artifact(
+                eyeDistance/2,
+                -size/2,
+                500,
+                Color.BLUE,
+                        //FRONT
+                        new Polygon(
+                                new Vertex(0,0,0),
+                                new Vertex(smileySize,0,0),
+                                new Vertex(0,smileySize*2,0)),
+                        new Polygon(
+                                new Vertex(smileySize,0,0),
+                                new Vertex(0,smileySize*2,0),
+                                new Vertex(smileySize,smileySize*2,0)),
+                        //BACK
+                        new Polygon(
+                                new Vertex(0,0,smileySize),
+                                new Vertex(smileySize,0,smileySize),
+                                new Vertex(0,smileySize*2,smileySize)),
+                        new Polygon(
+                                new Vertex(smileySize,0,smileySize),
+                                new Vertex(0,smileySize*2,smileySize),
+                                new Vertex(smileySize,smileySize*2,smileySize)),
+                        //LEFT
+                        new Polygon(
+                                new Vertex(0,0,0),
+                                new Vertex(0,smileySize*2,0),
+                                new Vertex(0,smileySize*2,smileySize)),
+                        new Polygon(
+                                new Vertex(0,0,0),
+                                new Vertex(0,smileySize*2,smileySize),
+                                new Vertex(0,0,smileySize)),
+                        //RIGHT
+                        new Polygon(
+                                new Vertex(smileySize,0,0),
+                                new Vertex(smileySize,smileySize*2,0),
+                                new Vertex(smileySize,smileySize*2,smileySize)),
+                        new Polygon(
+                                new Vertex(smileySize,0,0),
+                                new Vertex(smileySize,smileySize*2,smileySize),
+                                new Vertex(smileySize,0,smileySize)),
+                        //UP
+                        new Polygon(
+                                new Vertex(0,0,0),
+                                new Vertex(smileySize,0,0),
+                                new Vertex(0,0,smileySize)),
+                        new Polygon(
+                                new Vertex(smileySize,0,0),
+                                new Vertex(smileySize,0,smileySize),
+                                new Vertex(0,0,smileySize)),
+                        //DOWN
+                        new Polygon(
+                                new Vertex(0,smileySize*2,0),
+                                new Vertex(smileySize,smileySize*2,0),
+                                new Vertex(0,smileySize*2,smileySize)),
+                        new Polygon(
+                                new Vertex(smileySize,smileySize*2,0),
+                                new Vertex(smileySize,smileySize*2,smileySize),
+                                new Vertex(0,smileySize*2,smileySize))
+                ),
+                //mouth
+                new Artifact(
+                        -mouthDistance/2 + smileySize/2,
+                        eyeDistance,
+                        500,
+                        Color.RED,
+                        //FRONT
+                        new Polygon(
+                                new Vertex(0,0,0),
+                                new Vertex(mouthDistance,0,0),
+                                new Vertex(0,smileySize,0)),
+                        new Polygon(
+                                new Vertex(mouthDistance,0,0),
+                                new Vertex(0,smileySize,0),
+                                new Vertex(mouthDistance,smileySize,0)),
+                        //BACK
+                        new Polygon(
+                                new Vertex(0,0,smileySize),
+                                new Vertex(mouthDistance,0,smileySize),
+                                new Vertex(0,smileySize,smileySize)),
+                        new Polygon(
+                                new Vertex(mouthDistance,0,smileySize),
+                                new Vertex(0,smileySize,smileySize),
+                                new Vertex(mouthDistance,smileySize,smileySize)),
+                        //LEFT
+                        new Polygon(
+                                new Vertex(0,0,0),
+                                new Vertex(0,smileySize,0),
+                                new Vertex(0,smileySize,smileySize)),
+                        new Polygon(
+                                new Vertex(0,0,0),
+                                new Vertex(0,smileySize,smileySize),
+                                new Vertex(0,0,smileySize)),
+                        //RIGHT
+                        new Polygon(
+                                new Vertex(mouthDistance,0,0),
+                                new Vertex(mouthDistance,smileySize,0),
+                                new Vertex(mouthDistance,smileySize,smileySize)),
+                        new Polygon(
+                                new Vertex(mouthDistance,0,0),
+                                new Vertex(mouthDistance,smileySize,smileySize),
+                                new Vertex(mouthDistance,0,smileySize)),
+                        //UP
+                        new Polygon(
+                                new Vertex(0,0,0),
+                                new Vertex(mouthDistance,0,0),
+                                new Vertex(0,0,smileySize)),
+                        new Polygon(
+                                new Vertex(mouthDistance,0,0),
+                                new Vertex(mouthDistance,0,smileySize),
+                                new Vertex(0,0,smileySize)),
+                        //DOWN
+                        new Polygon(
+                                new Vertex(0,smileySize,0),
+                                new Vertex(mouthDistance,smileySize,0),
+                                new Vertex(0,smileySize,smileySize)),
+                        new Polygon(
+                                new Vertex(mouthDistance,smileySize,0),
+                                new Vertex(mouthDistance,smileySize,smileySize),
+                                new Vertex(0,smileySize,smileySize))
+                )
+        );
 
         engine.run();
     }

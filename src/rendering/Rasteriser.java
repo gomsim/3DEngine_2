@@ -1,6 +1,7 @@
 package rendering;
 
 import components.Vertex;
+import util.IllegalGeometryException;
 import util.Mapper;
 
 import java.awt.*;
@@ -33,7 +34,6 @@ class Rasteriser {
         //TODO: Glöm inte att invänta traådarna när resteriseringen är klar, så att det blir en "atomär" operation.
         //TODO: Använd trådpoolen i ThreadPool
 
-        //TODO: Rasteriseringen måste kolla färgen på pixlar och djupet (MHA interpolering)
         int xMin = xMapper.mapInt(projection.bounds.xMin);
         int xMax = xMapper.mapInt(projection.bounds.xMax);
         int yMin = yMapper.mapInt(projection.bounds.yMin);
@@ -43,11 +43,15 @@ class Rasteriser {
         for (int x = projection.bounds.xMin; x < projection.bounds.xMax; x++){
             for (int y = projection.bounds.yMin; y < projection.bounds.yMax; y++){
                 if (!outsideRaster(x, y) && insideProjection(projection, x, y)){
-                    double pixelDepth = pixelDepth(projection, x, y);
-                    if (pixelDepth > zBoundary && pixelDepth < raster.getDepth(x,y)){
-                        raster.setDepth(x, y, pixelDepth);
-                        raster.setColor(x, y, (int)(pixelDepth));
-                        raster.setColor(x, y, getColorByDistance(projection.color, pixelDepth)); //TODO: colorByDist is only temporary!!
+                    try{
+                        double pixelDepth = pixelDepth(projection, x, y);
+                        if (pixelDepth > zBoundary && pixelDepth < raster.getDepth(x,y)){
+                            raster.setDepth(x, y, pixelDepth);
+                            raster.setColor(x, y, (int)(pixelDepth));
+                            raster.setColor(x, y, getColorByDistance(projection.color, pixelDepth)); //TODO: colorByDist is only temporary!!
+                        }
+                    }catch (IllegalGeometryException e){
+                        //TODO: Must use ther mothod to deal with 'straight' artifacts
                     }
                 }
             }

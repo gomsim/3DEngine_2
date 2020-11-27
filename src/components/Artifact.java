@@ -12,7 +12,7 @@ public class Artifact {
     private double width, height, depth;
 
     //shape
-    private HashMap<Integer, Vertex> vertices = new HashMap<>();
+    private HashMap<Vertex, Vertex> vertices = new HashMap<>();
     private HashSet<Polygon> polygons = new HashSet<>();
     private Color color;
 
@@ -29,10 +29,10 @@ public class Artifact {
         for (Polygon polygon: polygons){
             Vertex[] polygonVertices = polygon.getVertices();
             for (int i = 0; i < polygonVertices.length; i++){
-                if (!vertices.containsKey(polygonVertices[i].hashCode()))
-                    vertices.put(polygonVertices[i].hashCode(), polygonVertices[i]);
+                if (!vertices.containsKey(polygonVertices[i]))
+                    vertices.put(polygonVertices[i], polygonVertices[i]);
                 else
-                    polygonVertices[i] = vertices.get(polygonVertices[i].hashCode());
+                    polygonVertices[i] = vertices.get(polygonVertices[i]);
             }
             polygon.setArt(this);
             this.polygons.add(polygon);
@@ -148,7 +148,7 @@ public class Artifact {
 
     public String toString(){
         StringBuilder builder = new StringBuilder();
-        //builder.append(color+" ["+x+" "+y+" "+z+"] ("+width+" "+height+" "+depth+")");
+        builder.append(color+" ["+x+" "+y+" "+z+"] ("+width+" "+height+" "+depth+")");
         builder.append("\n");
         for (Vertex vertex: vertices.values()){
             builder.append(vertex);
