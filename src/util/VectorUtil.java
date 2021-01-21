@@ -118,19 +118,19 @@ public class VectorUtil {
     public static double angleBetween(double[] v1, double[] v2){
         return Math.acos(VectorUtil.dotProduct(v1,v2)/(VectorUtil.length(v1)*VectorUtil.length(v2)));
     }
-    public static double[] intersectsAtXY(double[] v1a, double[] v1b, double[] v2a, double[] v2b){ //This one feels CONTRIIIIIIVED...
+    public static double[] intersectsAtXY(double[] a1, double[] a2, double[] b1, double[] v2b){
         double[] intersection = new double[NUM_DIMENSIONS - 1];
         intersection[X] =
-                ((v1a[X]*v1b[Y] - v1a[Y]*v1b[X])*(v2a[X] - v2b[X]) -
-                (v2a[X]*v2b[Y] - v2a[Y]*v2b[X])*(v1a[X] - v1b[X])) /
-                ((v1a[X] - v1b[X])*(v2a[Y] - v2b[Y]) -
-                (v2a[X] - v2b[X])*(v1a[Y] - v1b[Y]));
+                ((a1[X]*a2[Y] - a1[Y]*a2[X])*(b1[X] - v2b[X]) -
+                (b1[X]*v2b[Y] - b1[Y]*v2b[X])*(a1[X] - a2[X])) /
+                ((a1[X] - a2[X])*(b1[Y] - v2b[Y]) -
+                (b1[X] - v2b[X])*(a1[Y] - a2[Y]));
 
         intersection[Y] =
-                ((v1a[X]*v1b[Y] - v1a[Y]*v1b[X])*(v2a[Y] - v2b[Y]) -
-                (v2a[X]*v2b[Y] - v2a[Y]*v2b[X])*(v1a[Y] - v1b[Y])) /
-                ((v1a[X] - v1b[X])*(v2a[Y] - v2b[Y]) -
-                (v2a[X] - v2b[X])*(v1a[Y] - v1b[Y]));
+                ((a1[X]*a2[Y] - a1[Y]*a2[X])*(b1[Y] - v2b[Y]) -
+                (b1[X]*v2b[Y] - b1[Y]*v2b[X])*(a1[Y] - a2[Y])) /
+                ((a1[X] - a2[X])*(b1[Y] - v2b[Y]) -
+                (b1[X] - v2b[X])*(a1[Y] - a2[Y]));
         return intersection;
     }
     public static double[] interpolate(double[] a, double[] b, double at, int axis){
@@ -145,13 +145,30 @@ public class VectorUtil {
         double ratioAt = at/deltaAB[axis];
         return add(multiply(deltaAB, ratioAt), a);
     }
-    public static double[] interpolate(double[] a, double[] b, double[] at){ //TODO: Not always finding a valid axis to interpolate
-        //TODO: gets "IllegalGeometryException: Impossible interpolation between [1144.3718024985128,537.1046995835812,1682.0] and [1144.3718024985128,537.1046995835812,1682.0] at axis y:NaN"
+    public static double[] interpolate(double[] a, double[] b, double[] at){
         int axis = 0;
         while (axis < at.length - 1 && a[axis] == b[axis]){
             axis++;
         }
         return interpolate(a, b, at[axis], axis);
+    }
+
+    /*
+    * Created as an experiment. interpolates along the axis with the largest
+    * delta instead of the first one with a non-zero delta.
+    */
+    public static double[] interpolateNoneLazy(double[] a, double[] b, double[] at){
+        int axisMax = 0;
+        double deltaMax = 0;
+
+        for (int axis = 0; axis < at.length; axis++){
+            double delta = Math.abs(a[axis] - b[axis]);
+            if (delta > deltaMax){
+                deltaMax = delta;
+                axisMax = axis;
+            }
+        }
+        return interpolate(a, b, at[axisMax], axisMax);
     }
     public static double[] vectorOf(double[] from, double[] to){
         return subtract(to, from);
@@ -171,5 +188,20 @@ public class VectorUtil {
     }
     public static double sigmoid(double distance){
         return 1/(1 + Math.exp(-distance));
+    }
+    public static class LinearFunction{ //Never used, but a nifty way to find intersection of two lines.
+        double m, c;
+
+        public LinearFunction(double[] v1, double[] v2){
+            double[] vec = vectorOf(v1,v2);
+            m = vec[Y]/vec[X];
+            c = interpolate(v1, v2, 0, X)[Y];
+        }
+
+        public double[] intersection(LinearFunction other){
+            double x = (other.c-c)/(m-other.m);
+            double y = m*x+c;
+            return new double[] {x,y};
+        }
     }
 }

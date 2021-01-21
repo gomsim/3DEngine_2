@@ -22,35 +22,36 @@ class Rasteriser {
         this.lensHeigh = lensHeigh;
         this.imgWidth = imgWidth;
         this.imgHeight = imgHeight;
-        xMapper = new Mapper(-(double)lensWidth/2,(double)lensWidth/2, 0, imgWidth);
-        yMapper = new Mapper(-(double)lensHeigh/2, (double)lensHeigh/2, 0, imgHeight);
+        //xMapper = new Mapper(-(double)lensWidth/2,(double)lensWidth/2, 0, imgWidth);
+        //yMapper = new Mapper(-(double)lensHeigh/2, (double)lensHeigh/2, 0, imgHeight);
     }
     void cleanRaster(){
         raster = new Raster(imgWidth, imgHeight);
     }
 
-    void rasterise(Projection projection, double zBoundary){
+    void rasterise(Projection projection, double zMin, double zMax){
         //TODO: DENNA process kommer vara trådad där antalet trådar i systemet överför info från projektionen till rastret.
         //TODO: Glöm inte att invänta traådarna när resteriseringen är klar, så att det blir en "atomär" operation.
         //TODO: Använd trådpoolen i ThreadPool
 
-        int xMin = xMapper.mapInt(projection.bounds.xMin);
-        int xMax = xMapper.mapInt(projection.bounds.xMax);
-        int yMin = yMapper.mapInt(projection.bounds.yMin);
-        int yMax = yMapper.mapInt(projection.bounds.yMax);
+        //int xMin = xMapper.mapInt(projection.bounds.xMin);
+        //int xMax = xMapper.mapInt(projection.bounds.xMax);
+        //int yMin = yMapper.mapInt(projection.bounds.yMin);
+        //int yMax = yMapper.mapInt(projection.bounds.yMax);
 
         //TODO: Borde egentligen basera sina bounds på mappern!!
         for (int x = projection.bounds.xMin; x < projection.bounds.xMax; x++){
             for (int y = projection.bounds.yMin; y < projection.bounds.yMax; y++){
-                if (!outsideRaster(x, y) && insideProjection(projection, x, y)){
+                if (!outsideRaster(x, y) && insideProjection(x, y, projection)){
                     try{
-                        double pixelDepth = pixelDepth(projection, x, y);
-                        if (pixelDepth > zBoundary && pixelDepth < raster.getDepth(x,y)){
+                        double pixelDepth = pixelDepth(x, y, projection);
+                        if (pixelDepth > zMin && pixelDepth < zMax && pixelDepth < raster.getDepth(x,y)){
                             raster.setDepth(x, y, pixelDepth);
-                            raster.setColor(x, y, (int)(pixelDepth));
+                            //raster.setColor(x, y, (int)(pixelDepth));
                             raster.setColor(x, y, getColorByDistance(projection.color, pixelDepth)); //TODO: colorByDist is only temporary!!
                         }
                     }catch (IllegalGeometryException e){
+                        System.out.println("Threw IllegalGeometryException due to 'straight' artifacts.");
                         //TODO: Must use ther mothod to deal with 'straight' artifacts
                     }
                 }
@@ -64,22 +65,22 @@ class Rasteriser {
         int blue = color.getBlue()/dist < 0? 0:color.getBlue()/dist >= 255? 255:(int)(color.getBlue()/dist);
         return new Color(red, green, blue).getRGB();
     }
-    private double pixelDepth(Projection projection, int x, int y){ //This implementation was just found from reasoning. There is probably a strictly mathematical way.
+    private double pixelDepth(int x, int y, Projection projection){ //This implementation was just found from reasoning. There is probably a strictly mathematical way.
         Vertex[] projVert = projection.polygon.getVertices();
-        double[] targ = new double[] {x, y, 0}; //Target point without Z (ie. Z is unknown at this point)
+        double[] target = new double[] {x, y}; //Target point without Z (ie. Z is unknown at this point)
 
-        double[] intersectATarg_BC = intersectsAtXY(projVert[A].coordinates, targ, projVert[B].coordinates, projVert[C].coordinates);
+        double[] intersectATarg_BC = intersectsAtXY(projVert[A].coordinates, target, projVert[B].coordinates, projVert[C].coordinates);
 
         double[] interpolBC = interpolate(projVert[B].coordinates, projVert[C].coordinates, intersectATarg_BC);
-        targ = interpolate(projVert[A].coordinates, interpolBC, targ); //Target point WITH Z
+        target = interpolate(projVert[A].coordinates, interpolBC, target); //Target point WITH Z
 
-        return targ[Z];
+        return target[Z];
     }
 
     private boolean outsideRaster(int x, int y){
         return x < 0 || x >= imgWidth || y < 0 || y >= imgHeight;
     }
-    private boolean insideProjection(Projection projection, int x, int y){
+    private boolean insideProjection(int x, int y, Projection projection){
         Vertex[] vertices = projection.polygon.getVertices();
         double projArea = area(vertices[A].coordinates, vertices[B].coordinates, vertices[C].coordinates);
 

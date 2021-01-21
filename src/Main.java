@@ -18,39 +18,26 @@ public class Main {
         int yellowPos = 200;
 
         //Triangles behind each other and green wall
-        /*engine.add(
+        engine.add(
                 new Artifact(
+                wallLength,
                 -size/2,
-                -size/2,
-                size*1,
+                100,
                 Color.RED,
                 new Polygon(
-                        new Vertex(0,size,0),
-                        new Vertex(size/2,0,0),
-                        new Vertex(size,size,0))
+                        new Vertex(0,bigSize,0),
+                        new Vertex(size/2,0,bigSize),
+                        new Vertex(size,bigSize,0))
         ),      new Artifact(
+                wallLength,
                 -size/2,
-                -size/2,
-                size*2,
+                0,
                 Color.YELLOW,
                 new Polygon(
-                        new Vertex(0,size,0),
-                        new Vertex(size/2,0,0),
-                        new Vertex(size,size,0))
-        ),      new Artifact(
-                size,
-                -size/2,
-                size*1,
-                Color.GREEN,
-                new Polygon(
-                        new Vertex(0,size,wallLength),
-                        new Vertex(0,0,0),
-                        new Vertex(0,size,0)),
-                new Polygon(
-                        new Vertex(0,0,wallLength),
-                        new Vertex(0,0,0),
-                        new Vertex(0,size,wallLength))
-        ));*/
+                        new Vertex(0,bigSize,0),
+                        new Vertex(size/2,0,bigSize),
+                        new Vertex(size,bigSize,0))
+        ));
 
         //Wall SINGLE ARTIFACT
         /*engine.add( new Artifact(
@@ -66,10 +53,10 @@ public class Main {
                         new Vertex(0,0,wallLength),
                         new Vertex(0,0,0),
                         new Vertex(0,size,wallLength))
-        ));*/
+        ));
 
         //Wall SEPARATE ARTIFACTS
-        /*engine.add(
+        engine.add(
         new Artifact(
                 size/2,
                 -size/2,
@@ -80,7 +67,7 @@ public class Main {
                         new Vertex(0,0,0),
                         new Vertex(0,size,0))),
         new Artifact(
-                size,
+                size/2,
                 -size/2,
                 size*1,
                 Color.GREEN,
@@ -124,7 +111,7 @@ public class Main {
                         -size,
                         -size/2,
                         500,
-                        Color.RED,
+                        Color.GREEN,
                         new Polygon(
                                 new Vertex(0,size,yellowPos ),
                                 new Vertex(size/2,0,yellowPos ),
@@ -154,26 +141,80 @@ public class Main {
                         new Vertex(size,size,0))
         ));*/
 
-        //Intersecting triangles
-        /*engine.add(new Artifact(
+        //Large Intersecting triangles
+        engine.add(/*new Artifact(
                 -bigSize/2,
                 -bigSize/2,
                 500,
                 Color.RED,
-                new Polygon(
+                new Polygon( //Vänster
                         new Vertex(0,bigSize,0),
+                        new Vertex(bigSize/4,bigSize/2,bigSize/2),
+                        new Vertex(bigSize/2,bigSize,0)),
+                new Polygon( //Höger
+                        new Vertex(bigSize/2,bigSize,0),
+                        new Vertex((bigSize/4)*3,bigSize/2,bigSize/2),
+                        new Vertex(bigSize,bigSize,0)),
+                new Polygon( //Topp
+                        new Vertex(bigSize/4,bigSize/2,bigSize/2),
                         new Vertex(bigSize/2,0,bigSize),
-                        new Vertex(bigSize,bigSize,0))
-        ),new Artifact(
+                        new Vertex((bigSize/4)*3,bigSize/2,bigSize/2)),
+                new Polygon( //Mitt
+                        new Vertex(bigSize/4,bigSize/2,bigSize/2),
+                        new Vertex(bigSize/2,bigSize,0),
+                        new Vertex((bigSize/4)*3,bigSize/2,bigSize/2))
+        ),*/new Artifact(
                 -bigSize/2,
                 -bigSize/2,
-                600,
+                500,
                 Color.YELLOW,
                 new Polygon(
                         new Vertex(0,bigSize,bigSize),
                         new Vertex(bigSize/2,0,0),
                         new Vertex(bigSize,bigSize,bigSize))
-        ));*/
+        ),new Artifact(
+                -bigSize,
+                -bigSize/2,
+                1000,
+                Color.GREEN,
+                new Polygon( //Vänster
+                        new Vertex(0,bigSize,bigSize),
+                        new Vertex(bigSize/4,bigSize/2,bigSize/2),
+                        new Vertex(bigSize/2,bigSize,bigSize)),
+                new Polygon( //Höger
+                        new Vertex(bigSize/2,bigSize,bigSize),
+                        new Vertex((bigSize/4)*3,bigSize/2,bigSize/2),
+                        new Vertex(bigSize,bigSize,bigSize)),
+                new Polygon( //Topp
+                        new Vertex(bigSize/4,bigSize/2,bigSize/2),
+                        new Vertex(bigSize/2,0,0+100),
+                        new Vertex((bigSize/4)*3,bigSize/2,bigSize/2)),
+                new Polygon( //Mitt
+                        new Vertex(bigSize/4,bigSize/2,bigSize/2),
+                        new Vertex(bigSize/2,bigSize,bigSize),
+                        new Vertex((bigSize/4)*3,bigSize/2,bigSize/2))
+        ),new Artifact(
+                0,
+                -bigSize/2,
+                0,
+                Color.GREEN,
+                new Polygon( //Vänster
+                        new Vertex(0,bigSize,bigSize),
+                        new Vertex(bigSize/4,bigSize/2,bigSize/2),
+                        new Vertex(bigSize/2,bigSize,bigSize)),
+                new Polygon( //Höger
+                        new Vertex(bigSize/2,bigSize,bigSize),
+                        new Vertex((bigSize/4)*3,bigSize/2,bigSize/2),
+                        new Vertex(bigSize,bigSize,bigSize)),
+                new Polygon( //Topp
+                        new Vertex(bigSize/4,bigSize/2,bigSize/2),
+                        new Vertex(bigSize/2,0,0+100),
+                        new Vertex((bigSize/4)*3,bigSize/2,bigSize/2)),
+                new Polygon( //Mitt
+                        new Vertex(bigSize/4,bigSize/2,bigSize/2),
+                        new Vertex(bigSize/2,bigSize,bigSize),
+                        new Vertex((bigSize/4)*3,bigSize/2,bigSize/2))
+        ));
 
         //Tetrahedron
         /*engine.add(new Artifact(
@@ -438,7 +479,7 @@ public class Main {
         engine.add(
                 //left eye
                 new Artifact(
-                -eyeDistance/2,
+                -eyeDistance*2,
                 -size/2,
                 500,
                 Color.ORANGE,
@@ -496,7 +537,7 @@ public class Main {
                                 new Vertex(smileySize,smileySize*2,0),
                                 new Vertex(smileySize,smileySize*2,smileySize),
                                 new Vertex(0,smileySize*2,smileySize))
-                ),
+                ));/*,
                 //right eye
                 new Artifact(
                 eyeDistance/2,
@@ -619,7 +660,7 @@ public class Main {
                                 new Vertex(mouthDistance,smileySize,smileySize),
                                 new Vertex(0,smileySize,smileySize))
                 )
-        );
+        );*/
 
         engine.run();
     }

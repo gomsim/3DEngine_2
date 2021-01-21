@@ -96,7 +96,7 @@ public class Engine {
     private double[] correctForRealisticMovement(double[] degs){
         if (viewTiltAngle + degs[X] <= -90)
             degs[X] = -90 - viewTiltAngle;
-        if (viewTiltAngle + degs[X] >= 90)
+        else if (viewTiltAngle + degs[X] >= 90)
             degs[X] = 90 - viewTiltAngle;
         viewTiltAngle += degs[X];
 

@@ -5,6 +5,8 @@ import components.Polygon;
 import components.Vertex;
 import engine.Engine;
 
+import java.awt.*;
+
 import static rendering.Renderer.*;
 import static util.VectorUtil.*;
 
@@ -13,6 +15,7 @@ class Camera {
     //TODO: VIEW_ANDLE and LENS_DISTANCE should be moved to config file
     private static final int VIEW_ANGLE = 90;
     private static final double LENS_DISTANCE = 500;
+    private static final double VIEW_DISTANCE = 10000;
 
     private static final int LENS_WIDTH = calculateLensWidth(VIEW_ANGLE, LENS_DISTANCE);
     private static final int LENS_HEIGHT = calculateLensHeight(LENS_WIDTH);
@@ -42,11 +45,11 @@ class Camera {
                         if (clippingData.needsClipping()){ //TODO: Clean this mofo shit up! Put in a method or som'n'.
                             for (Polygon clippedPolygon: clippingData.clipPolygons()){
                                 projection = projectPolygon(artifact, clippedPolygon);
-                                rasteriser.rasterise(projection, LENS_DISTANCE);
+                                rasteriser.rasterise(projection, LENS_DISTANCE, VIEW_DISTANCE);
                             }
                         }else{
                             projection = projectPolygon(artifact, wPolygon);
-                            rasteriser.rasterise(projection, LENS_DISTANCE);
+                            rasteriser.rasterise(projection, LENS_DISTANCE, VIEW_DISTANCE);
                         }
                     /*if (i++ == 0){
                         System.out.println("-----------------RENBDERING-------------- ");
@@ -58,7 +61,15 @@ class Camera {
                 }
             }
         }
+        addCrossHair(rasteriser.getRaster());
         return rasteriser.getRaster();
+    }
+
+    private void addCrossHair(Raster raster){
+        raster.setColor(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, Color.WHITE.getRGB());
+        raster.setColor((SCREEN_WIDTH/2)+1, (SCREEN_HEIGHT/2), Color.WHITE.getRGB());
+        raster.setColor((SCREEN_WIDTH/2), (SCREEN_HEIGHT/2)+1, Color.WHITE.getRGB());
+        raster.setColor((SCREEN_WIDTH/2)+1, (SCREEN_HEIGHT/2)+1, Color.WHITE.getRGB());
     }
     private Projection projectPolygon(Artifact artifact, Polygon polygon){
         polygon = new Polygon(

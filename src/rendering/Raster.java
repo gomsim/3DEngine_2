@@ -27,7 +27,7 @@ class Raster {
         throwExceptionIfOutsideBounds(x, y);
         depthBuffer[y*imgWidth + x] = z;
     }
-    double getColor(int x, int y){
+    int getColor(int x, int y){
         throwExceptionIfOutsideBounds(x, y);
         return colorBuffer[y*imgWidth + x];
     }
