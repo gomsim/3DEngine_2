@@ -4,7 +4,10 @@ import rendering.Renderer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 import static util.VectorUtil.*;
 
@@ -16,6 +19,8 @@ public class GUI extends JFrame {
 
     private final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
     private final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
+
+    private final MovementProcessor movementProcessor = new MovementProcessor();
 
     public GUI(Renderer renderer){
         setUpWindow();
@@ -30,6 +35,8 @@ public class GUI extends JFrame {
         setCursor(toolkit.createCustomCursor(toolkit.getImage(""), new Point(), "transparent"));
 
         setVisible(true);
+
+        new Thread(movementProcessor).start();
     }
 
     private void setUpWindow(){
@@ -70,38 +77,59 @@ public class GUI extends JFrame {
     }
 
     private class MoveListener extends KeyAdapter {
-
-        private HashSet<Integer> pressedKeys = new HashSet<>();
-
         public void keyPressed(KeyEvent event){
-            double[] offset = new double[NUM_DIMENSIONS];
-            pressedKeys.add(event.getKeyCode());
-            for (Integer keyPress: pressedKeys) {
-                switch (keyPress) {
-                    case KeyEvent.VK_A:
-                        offset[X] += MOVEMENT_SPEED;
-                        break;
-                    case KeyEvent.VK_D:
-                        offset[X] += -MOVEMENT_SPEED;
-                        break;
-                    case KeyEvent.VK_W:
-                        offset[Z] += -MOVEMENT_SPEED;
-                        break;
-                    case KeyEvent.VK_S:
-                        offset[Z] += MOVEMENT_SPEED;
-                        break;
-                    case KeyEvent.VK_SPACE:
-                        offset[Y] += MOVEMENT_SPEED;
-                        break;
-                    case KeyEvent.VK_CONTROL:
-                        offset[Y] += -MOVEMENT_SPEED;
-                        break;
-                }
-            }
-            Engine.instance().moveCamera(offset);
+            movementProcessor.toAdd.add(event.getKeyCode());
         }
         public void keyReleased(KeyEvent event){
-            pressedKeys.remove(event.getKeyCode());
+            movementProcessor.toRemove.add(event.getKeyCode());
+        }
+    }
+
+    private static class MovementProcessor implements Runnable{
+        private final BlockingQueue<Integer> toAdd = new ArrayBlockingQueue<>(15);
+        private final BlockingQueue<Integer> toRemove = new ArrayBlockingQueue<>(15);
+        private final HashSet<Integer> pressedKeys = new HashSet<>();
+
+        public void run(){
+            while(true){
+                double[] offset = new double[NUM_DIMENSIONS];
+                toAdd.drainTo(pressedKeys);
+
+                java.util.List<Integer> temp = new ArrayList<>();
+                toRemove.drainTo(temp);
+                pressedKeys.removeAll(temp);
+
+                for (Integer keyPress: pressedKeys) {
+                    switch (keyPress) {
+                        case KeyEvent.VK_A:
+                            offset[X] += MOVEMENT_SPEED;
+                            break;
+                        case KeyEvent.VK_D:
+                            offset[X] += -MOVEMENT_SPEED;
+                            break;
+                        case KeyEvent.VK_W:
+                            offset[Z] += -MOVEMENT_SPEED;
+                            break;
+                        case KeyEvent.VK_S:
+                            offset[Z] += MOVEMENT_SPEED;
+                            break;
+                        case KeyEvent.VK_SPACE:
+                            offset[Y] += MOVEMENT_SPEED;
+                            break;
+                        case KeyEvent.VK_CONTROL:
+                            offset[Y] += -MOVEMENT_SPEED;
+                            break;
+                        case KeyEvent.VK_ESCAPE:
+                            System.exit(0);
+                    }
+                }
+                Engine.instance().moveCamera(offset);
+                try{
+                    Thread.sleep(10);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

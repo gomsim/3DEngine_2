@@ -14,8 +14,8 @@ public class Engine {
 
     private static Engine instance;
 
-    private Renderer renderer = new Renderer();
-    private ArrayList<Artifact> artifacts = new ArrayList<>();
+    private final Renderer renderer = new Renderer();
+    private final ArrayList<Artifact> artifacts = new ArrayList<>();
     private double viewTiltAngle = 0;
     private double[] translationBuffer = new double[NUM_DIMENSIONS];
     private double[] rotationBuffer = new double[NUM_DIMENSIONS];
@@ -100,8 +100,8 @@ public class Engine {
             degs[X] = 90 - viewTiltAngle;
         viewTiltAngle += degs[X];
 
-        double angle = viewTiltAngle / 90;
-        degs[Z] = degs[Y]*angle;
+        double viewTiltRatio = viewTiltAngle / 90;
+        degs[Z] = degs[Y]*viewTiltRatio;
 
         if (viewTiltAngle > 0) //Nedåt
             degs[Y] += -degs[Z];
