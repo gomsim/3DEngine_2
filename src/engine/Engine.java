@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static util.VectorUtil.*;
+import static util.MathUtil.*;
 
 public class Engine {
 
@@ -94,19 +95,14 @@ public class Engine {
     }
 
     private double[] correctForRealisticMovement(double[] degs){
-        if (viewTiltAngle + degs[X] <= -90)
-            degs[X] = -90 - viewTiltAngle;
-        else if (viewTiltAngle + degs[X] >= 90)
-            degs[X] = 90 - viewTiltAngle;
-        viewTiltAngle += degs[X];
+        degs[X] = cap(degs[X], -90, 90, viewTiltAngle);
+        viewTiltAngle = clamp(degs[X]+viewTiltAngle, -90, 90);
 
         double viewTiltRatio = viewTiltAngle / 90;
-        degs[Z] = degs[Y]*viewTiltRatio;
 
-        if (viewTiltAngle > 0) //Nedåt
-            degs[Y] += -degs[Z];
-        else if (viewTiltAngle < 0) //Uppåt
-            degs[Y] += degs[Z];
+        degs[Z] = degs[Y]*viewTiltRatio;
+        degs[Y] *= (1-Math.abs(viewTiltRatio));
+
         return degs;
     }
     private double[][] rotationMatrix(double[] degs){

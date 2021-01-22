@@ -14,7 +14,7 @@ import static util.VectorUtil.*;
 public class GUI extends JFrame {
 
     //TODO: Move out to config file
-    private static final double MOVEMENT_SPEED = 65;
+    private static final double MOVEMENT_SPEED = 25;
     private static final double TURNING_SPEED = 1.7;
 
     private final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -78,10 +78,10 @@ public class GUI extends JFrame {
 
     private class MoveListener extends KeyAdapter {
         public void keyPressed(KeyEvent event){
-            movementProcessor.toAdd.add(event.getKeyCode());
+            movementProcessor.add(event.getKeyCode());
         }
         public void keyReleased(KeyEvent event){
-            movementProcessor.toRemove.add(event.getKeyCode());
+            movementProcessor.remove(event.getKeyCode());
         }
     }
 
@@ -89,6 +89,13 @@ public class GUI extends JFrame {
         private final BlockingQueue<Integer> toAdd = new ArrayBlockingQueue<>(15);
         private final BlockingQueue<Integer> toRemove = new ArrayBlockingQueue<>(15);
         private final HashSet<Integer> pressedKeys = new HashSet<>();
+
+        public void add(int keyCode){
+            toAdd.add(keyCode);
+        }
+        public void remove(int keyCode){
+            toRemove.add(keyCode);
+        }
 
         public void run(){
             while(true){
@@ -125,7 +132,7 @@ public class GUI extends JFrame {
                 }
                 Engine.instance().moveCamera(offset);
                 try{
-                    Thread.sleep(10);
+                    Thread.sleep(7);
                 }catch (InterruptedException e){
                     e.printStackTrace();
                 }
