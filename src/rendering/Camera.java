@@ -20,7 +20,7 @@ class Camera {
     private static final int LENS_WIDTH = calculateLensWidth(VIEW_ANGLE, LENS_DISTANCE);
     private static final int LENS_HEIGHT = calculateLensHeight(LENS_WIDTH);
 
-    private static final double[] CAMERA_OFFSET = new double[] {(double)SCREEN_WIDTH/2, (double)SCREEN_HEIGHT/2, 0};
+    static final double[] CAMERA_OFFSET = new double[] {(double)SCREEN_WIDTH/2, (double)SCREEN_HEIGHT/2, 0};
 
     private Rasteriser rasteriser = new Rasteriser(LENS_WIDTH, LENS_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
 

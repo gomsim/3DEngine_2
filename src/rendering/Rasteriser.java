@@ -49,9 +49,9 @@ class Rasteriser {
                         if (pixelDepth > zMin && pixelDepth < zMax && pixelDepth < raster.getDepth(x,y)){
                             raster.setDepth(x, y, pixelDepth);
                             //raster.setColor(x, y, (int)(pixelDepth));
-                            if(((int)pixelDepth) % 10 < 3)
+                            /*if(((int)pixelDepth) % 10 < 3)
                                 raster.setColor(x, y, Color.RED.getRGB());
-                            else
+                            else*/
                                 raster.setColor(x, y, getColorByDistance(Color.CYAN, pixelDepth)); //TODO: colorByDist is only temporary!!
                         }
                     }catch (IllegalGeometryException e){
@@ -80,7 +80,7 @@ class Rasteriser {
 
         //TODO: Recently changed from raw Z-value to distance from ORIGIN.
         // Probably more precise, but less cost effective
-        return distanceBetween(ORIGIN, target);
+        return distanceBetween(Camera.CAMERA_OFFSET, target);
     }
 
     private boolean outsideRaster(int x, int y){
