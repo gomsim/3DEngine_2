@@ -7,7 +7,6 @@ import util.Mapper;
 import java.awt.*;
 
 import static util.MathUtil.clamp;
-import static util.MathUtil.inverseSquare;
 import static util.VectorUtil.*;
 
 class Rasteriser {
@@ -71,13 +70,13 @@ class Rasteriser {
         return new Color(red, green, blue).getRGB();
     }
     private double pixelDepth(int x, int y, Projection projection){ //This implementation was just found from reasoning. There is probably a strictly mathematical way.
-        Vertex[] projVert = projection.polygon.getVertices();
+        Vertex[] projVerts = projection.polygon.getVertices();
         double[] target = new double[] {x, y}; //Target point without Z (ie. Z is unknown at this point)
 
-        double[] intersectATarg_BC = intersectsAtXY(projVert[A].coordinates, target, projVert[B].coordinates, projVert[C].coordinates);
+        double[] intersectATarg_BC = intersectsAtXY(projVerts[A].coordinates, target, projVerts[B].coordinates, projVerts[C].coordinates);
 
-        double[] interpolBC = interpolate(projVert[B].coordinates, projVert[C].coordinates, intersectATarg_BC);
-        target = interpolate(projVert[A].coordinates, interpolBC, target); //Target point WITH Z
+        double[] interpolBC = interpolate(projVerts[B].coordinates, projVerts[C].coordinates, intersectATarg_BC);
+        target = interpolate(projVerts[A].coordinates, interpolBC, target); //Target point WITH Z
 
         //TODO: Recently changed from raw Z-value to distance from ORIGIN.
         // Probably more precise, but less cost effective
