@@ -10,7 +10,7 @@ public class MathUtil {
 
     /**
      * Limits val to min and max.
-     * @return val if val is between min and max, min if val is less than max
+     * @return val if val is between min and max, min if val is less than min
      * and max if val is more than max;
      */
     public static double clamp(double val, double min, double max){
@@ -20,7 +20,7 @@ public class MathUtil {
         return val < max && val > min ;
     }
     /**
-     * @return how much more val is than max, or how mych less val is than min.
+     * @return how much more val is than max, or how much less val is than min.
      * if val is between min and max 0 is returned.
      */
     public static double excess(double val, double min, double max){

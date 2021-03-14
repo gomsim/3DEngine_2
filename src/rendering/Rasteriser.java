@@ -6,6 +6,8 @@ import util.Mapper;
 
 import java.awt.*;
 
+import static util.MathUtil.clamp;
+import static util.MathUtil.inverseSquare;
 import static util.VectorUtil.*;
 
 class Rasteriser {
@@ -59,10 +61,10 @@ class Rasteriser {
         }
     }
     private int getColorByDistance(Color color, double dist){//TODO: This is only temporary
-        dist /= 800;
-        int red = color.getRed()/dist < 0? 0:color.getRed()/dist >= 255? 255:(int)(color.getRed()/dist);
-        int green = color.getGreen()/dist < 0? 0:color.getGreen()/dist >= 255? 255:(int)(color.getGreen()/dist);
-        int blue = color.getBlue()/dist < 0? 0:color.getBlue()/dist >= 255? 255:(int)(color.getBlue()/dist);
+        dist /= 1000;
+        int red = (int)clamp((color.getRed()/dist), 0, 255);
+        int green = (int)clamp((color.getGreen()/dist), 0, 255);
+        int blue = (int)clamp((color.getBlue()/dist), 0, 255);
         return new Color(red, green, blue).getRGB();
     }
     private double pixelDepth(int x, int y, Projection projection){ //This implementation was just found from reasoning. There is probably a strictly mathematical way.
