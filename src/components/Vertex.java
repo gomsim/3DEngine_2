@@ -23,6 +23,16 @@ public class Vertex {
     public double[] asVector(){
         return new double[] {coordinates[X],coordinates[Y],coordinates[Z]};
     }
+    public double x(){
+        return coordinates[X];
+    }
+    public double y(){
+        return coordinates[Y];
+    }
+    public double z(){
+        return coordinates[Z];
+    }
+
     public void rotate(double[][] rot){ //TODO: Really just a matric multiplication between coordinates vector and rotation matrix... So can be simplified.
         double result[] = {
                 rot[X][0] * coordinates[X] + rot[X][1] * coordinates[Y] + rot[X][2] * coordinates[Z],

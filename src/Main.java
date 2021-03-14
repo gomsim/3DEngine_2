@@ -187,7 +187,7 @@ public class Main {
                         new Vertex(bigSize,bigSize,bigSize)),
                 new Polygon( //Topp
                         new Vertex(bigSize/4,bigSize/2,bigSize/2),
-                        new Vertex(bigSize/2,0,0+100),
+                        new Vertex(bigSize/2,0,0),
                         new Vertex((bigSize/4)*3,bigSize/2,bigSize/2)),
                 new Polygon( //Mitt
                         new Vertex(bigSize/4,bigSize/2,bigSize/2),
@@ -208,7 +208,7 @@ public class Main {
                         new Vertex(bigSize,bigSize,bigSize)),
                 new Polygon( //Topp
                         new Vertex(bigSize/4,bigSize/2,bigSize/2),
-                        new Vertex(bigSize/2,0,0+100),
+                        new Vertex(bigSize/2,0,0),
                         new Vertex((bigSize/4)*3,bigSize/2,bigSize/2)),
                 new Polygon( //Mitt
                         new Vertex(bigSize/4,bigSize/2,bigSize/2),

@@ -90,6 +90,9 @@ public class VectorUtil {
                 Math.pow(vec[Z],2)
             );
     }
+    public static double distanceBetween(double[] v1, double[] v2){
+        return length(vectorOf(v1, v2));
+    }
     public static double angleBetween(double[] v1, double[] v2){
         return Math.acos(VectorUtil.dotProduct(v1,v2)/(VectorUtil.length(v1)*VectorUtil.length(v2)));
     }
