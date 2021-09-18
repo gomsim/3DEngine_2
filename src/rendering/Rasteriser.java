@@ -7,6 +7,7 @@ import util.Mapper;
 import java.awt.*;
 
 import static util.MathUtil.clamp;
+import static util.MathUtil.within;
 import static util.VectorUtil.*;
 
 class Rasteriser {
@@ -52,7 +53,7 @@ class Rasteriser {
                             /*if(((int)pixelDepth) % 10 < 3)
                                 raster.setColor(x, y, Color.RED.getRGB());
                             else*/
-                                raster.setColor(x, y, getColorByDistance(Color.CYAN, pixelDepth)); //TODO: colorByDist is only temporary!!
+                                raster.setColorIfInside(x, y, getColorByDistance(projection.color, pixelDepth)); //TODO: colorByDist is only temporary!!
                         }
                     }catch (IllegalGeometryException e){
                         System.out.println("Threw IllegalGeometryException due to 'straight' artifacts.");
@@ -84,7 +85,7 @@ class Rasteriser {
     }
 
     private boolean outsideRaster(int x, int y){
-        return x < 0 || x >= imgWidth || y < 0 || y >= imgHeight;
+        return !(within(x, 0, imgWidth) && within(y, 0, imgHeight));
     }
     private boolean insideProjection(int x, int y, Projection projection){
         Vertex[] vertices = projection.polygon.getVertices();

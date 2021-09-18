@@ -35,6 +35,10 @@ class Raster {
         throwExceptionIfOutsideBounds(x, y);
         colorBuffer[y*imgWidth + x] = color;
     }
+    void setColorIfInside(int x, int y, int color){
+        if (!outsideBounds(x, y))
+            colorBuffer[y*imgWidth + x] = color;
+    }
     private boolean outsideBounds(int x, int y){
         return y*imgWidth + x >= depthBuffer.length || y*imgWidth + x < 0;
     }
