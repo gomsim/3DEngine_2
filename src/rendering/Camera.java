@@ -40,7 +40,7 @@ class Camera {
             if (!behindCamera(artifact)){
                 for (Polygon polygon: artifact.getPolygons()){
                     Polygon wPolygon = toWorldSpace(polygon, artifact);
-                    if (!behindCamera(wPolygon)){ //TODO: Check also so that polygon doesn't cut through ORIGIN. If it does so there is no point in rendering it, which also gets rid of "straight" artifacts.
+                    if (!behindCamera(wPolygon) && facingCamera(wPolygon)){ //TODO: Check also so that polygon doesn't cut through ORIGIN. If it does so there is no point in rendering it, which also gets rid of "straight" artifacts.
                         ClippingData clippingData = new ClippingData(wPolygon, LENS_DISTANCE);
                         Projection projection;
                         if (clippingData.needsClipping()){ //TODO: Clean this mofo shit up! Put in a method or som'n'.
@@ -52,12 +52,6 @@ class Camera {
                             projection = projectPolygon(artifact, wPolygon);
                             rasteriser.rasterise(wPolygon, projection, LENS_DISTANCE, VIEW_DISTANCE);
                         }
-                    /*if (i++ == 0){
-                        System.out.println("-----------------RENBDERING-------------- ");
-                        System.out.println("Polygon: " + polygon);
-                        System.out.println("Projection: " + projection.polygon);
-                        System.out.println("----------------------------------------- ");
-                    }*/
                     }
                 }
             }
@@ -108,9 +102,12 @@ class Camera {
                 vertices[C].coordinates[Z] < LENS_DISTANCE;
     }
 
-    private boolean facingCamera(Polygon polygon){ //TODO: Why in the fudge of hell does this function work in reverse Z-wise??
-        return polygon.getNormal()[Z] < 0;//TODO: This SHOULD wourk when the Z-value is closer negative (ie. towards the camera) but works the other way around somehow.
+    private boolean facingCamera(Polygon polygon){
+        Vertex[] vertices = polygon.getVertices();
+        double avgX = (vertices[A].coordinates[X] + vertices[B].coordinates[X] + vertices[C].coordinates[X]) / 3;
+        double avgY = (vertices[A].coordinates[Y] + vertices[B].coordinates[Y] + vertices[C].coordinates[Y]) / 3;
+        double avgZ = (vertices[A].coordinates[Z] + vertices[B].coordinates[Z] + vertices[C].coordinates[Z]) / 3;
 
-        //TODO: Svaret på frågan kan vara att det handlar ju för fan inte bara om Z-axeln. Om en polygon är riktad mot dig skiljer sig beroende på vinkeln från dig till den. Det är som en sfär runt dig, inte bara vilken sida av Z den är.
+        return dotProduct(subtract(ORIGIN, new double[] {avgX, avgY, avgZ}), polygon.getNormal()) > 0;
     }
 }

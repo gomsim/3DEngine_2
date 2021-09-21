@@ -161,6 +161,7 @@ public class VectorUtil {
         else
             return -1;
     }
+
     public static class LinearFunction{ //Never used, but a nifty way to find intersection of two lines.
         double m, c;
 

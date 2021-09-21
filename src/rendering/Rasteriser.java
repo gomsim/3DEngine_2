@@ -28,6 +28,12 @@ class Rasteriser {
         //xMapper = new Mapper(-(double)lensWidth/2,(double)lensWidth/2, 0, imgWidth);
         //yMapper = new Mapper(-(double)lensHeigh/2, (double)lensHeigh/2, 0, imgHeight);
     }
+
+
+    Raster getRaster(){
+        return raster;
+    }
+
     void cleanRaster(){
         raster = new Raster(imgWidth, imgHeight);
     }
@@ -77,7 +83,7 @@ class Rasteriser {
         double[] interpolBC = interpolate(projVerts[B].coordinates, projVerts[C].coordinates, intersectATarg_BC);
         target = interpolate(projVerts[A].coordinates, interpolBC, target); //Target point WITH Z*/
 
-        return intersectDistance(polygon, ORIGIN, unitVector(new double[] {x - Camera.CAMERA_OFFSET[X], y - Camera.CAMERA_OFFSET[Y], Camera.LENS_DISTANCE}));// distanceBetween(Camera.CAMERA_OFFSET, target);
+        return intersectDistance(polygon, unitVector(new double[] {x - Camera.CAMERA_OFFSET[X], y - Camera.CAMERA_OFFSET[Y], Camera.LENS_DISTANCE}));// distanceBetween(Camera.CAMERA_OFFSET, target);
     }
 
     private boolean outsideRaster(int x, int y){
@@ -97,19 +103,15 @@ class Rasteriser {
         return Math.abs((a[X]*(b[Y] - c[Y]) + b[X]*(c[Y] - a[Y]) + c[X]*(a[Y] - b[Y])) / 2);
     }
 
-    Raster getRaster(){
-        return raster;
-    }
-
-    private double intersectDistance(Polygon polygon, double[] lineSource, double[] dir){
+    private double intersectDistance(Polygon polygon, double[] dir){
         double[] n = polygon.getNormal();
         double[] u = dir;
-        double[] w = subtract(polygon.getVertices()[A].asVector(),lineSource);
+        double[] w = subtract(polygon.getVertices()[A].asVector(),ORIGIN);
         boolean parallel = dotProduct(n,u) == 0;
         if (parallel)
             return -1;
         double s = (dotProduct(n,w)) / (dotProduct(n,u));
-        if (intersectionInsidePolygon(polygon, add(lineSource,multiply(u,s))))
+        if (intersectionInsidePolygon(polygon, add(ORIGIN,multiply(u,s))))
             return s;
         else
             return -1;
