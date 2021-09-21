@@ -1,7 +1,7 @@
 package rendering;
 
-import components.Vertex;
 import components.Polygon;
+import components.Vertex;
 
 import java.awt.*;
 
@@ -46,9 +46,9 @@ class Projection {
         int xMin, xMax, yMin, yMax;
         Bounds(int xMin, int xMax, int yMin, int yMax){
             this.xMin = xMin;
-            this.xMax = xMax;
+            this.xMax = xMax + 1; // + 1 so as to be able to loop from xMin to x < xMax
             this.yMin = yMin;
-            this.yMax = yMax;
+            this.yMax = yMax + 1; // + 1 so as to be able to loop from yMin to y < yMax
         }
     }
 }

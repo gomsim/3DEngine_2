@@ -75,5 +75,6 @@ public class Polygon {
     public void setArt(Artifact parejt){//FOR TESTING
         art = parejt;
     }
+
 }
 

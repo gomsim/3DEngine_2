@@ -7,14 +7,15 @@ import engine.Engine;
 
 import java.awt.*;
 
-import static rendering.Renderer.*;
+import static rendering.Renderer.SCREEN_HEIGHT;
+import static rendering.Renderer.SCREEN_WIDTH;
 import static util.VectorUtil.*;
 
 class Camera {
 
     //TODO: VIEW_ANDLE and LENS_DISTANCE should be moved to config file
     private static final int VIEW_ANGLE = 90;
-    private static final double LENS_DISTANCE = 500;
+    public static final double LENS_DISTANCE = 500;
     private static final double VIEW_DISTANCE = 10000;
 
     private static final int LENS_WIDTH = calculateLensWidth(VIEW_ANGLE, LENS_DISTANCE);
@@ -39,17 +40,17 @@ class Camera {
             if (!behindCamera(artifact)){
                 for (Polygon polygon: artifact.getPolygons()){
                     Polygon wPolygon = toWorldSpace(polygon, artifact);
-                    if (!behindCamera(wPolygon)){
+                    if (!behindCamera(wPolygon)){ //TODO: Check also so that polygon doesn't cut through ORIGIN. If it does so there is no point in rendering it, which also gets rid of "straight" artifacts.
                         ClippingData clippingData = new ClippingData(wPolygon, LENS_DISTANCE);
                         Projection projection;
                         if (clippingData.needsClipping()){ //TODO: Clean this mofo shit up! Put in a method or som'n'.
                             for (Polygon clippedPolygon: clippingData.clipPolygons()){
                                 projection = projectPolygon(artifact, clippedPolygon);
-                                rasteriser.rasterise(projection, LENS_DISTANCE, VIEW_DISTANCE);
+                                rasteriser.rasterise(clippedPolygon, projection, LENS_DISTANCE, VIEW_DISTANCE);
                             }
                         }else{
                             projection = projectPolygon(artifact, wPolygon);
-                            rasteriser.rasterise(projection, LENS_DISTANCE, VIEW_DISTANCE);
+                            rasteriser.rasterise(wPolygon, projection, LENS_DISTANCE, VIEW_DISTANCE);
                         }
                     /*if (i++ == 0){
                         System.out.println("-----------------RENBDERING-------------- ");
@@ -86,7 +87,7 @@ class Camera {
         return new Vertex(
                 interpolation[X],
                 interpolation[Y],
-                coordinates[Z]
+                0 //Only X and Y are used to determine projection's location on raster
         );
     }
     private Polygon toWorldSpace(Polygon polygon, Artifact artifact){ //TODO: Clean this mofo shit up!

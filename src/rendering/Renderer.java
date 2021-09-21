@@ -17,7 +17,6 @@ public class Renderer extends JPanel {
     public void render(){
         Raster raster = camera.capture();
         transferBufferToImage(raster.colorBuffer);
-        //TODO: How does the depthbuffer fit into this?
         repaint();
     }
 

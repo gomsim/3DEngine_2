@@ -1,21 +1,18 @@
 package components;
 
-import util.IllegalGeometryException;
-
 import static util.VectorUtil.*;
 
 public class Vertex {
 
     public double[] coordinates = new double[NUM_DIMENSIONS];
-    private static int MARGIN = 1;
 
     public Vertex(double x, double y, double z){
         /*if (x < 0 || y < 0 || z < 0){ temporarily disabled. //TODO: can be enabled again once Projection has been decoupleded from Polygon and vertex.
             throw new IllegalGeometryException("Coordinates cannot be negative. Got: [ x:" + x + " y:" + y + " z:" + z + " ]");
         }*/
-        coordinates[X] = x + MARGIN;
-        coordinates[Y] = y + MARGIN;
-        coordinates[Z] = z + MARGIN;
+        coordinates[X] = x;
+        coordinates[Y] = y;
+        coordinates[Z] = z;
     }
     public Vertex(double[] coordinates){
         this(coordinates[X], coordinates[Y], coordinates[Z]);

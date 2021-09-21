@@ -43,7 +43,7 @@ public class MathUtil {
         else
             return val - excess(acc, min, max);
     }
-    public static double[][] multiply(double[][] a, double[][] b){
+    public static double[][] multiply(double[][] a, double[][] b){ //TODO: Can probably be done faster if hard coded
         int aRows = a.length;
         int aCols = a[0].length;
         int bRows = b.length;

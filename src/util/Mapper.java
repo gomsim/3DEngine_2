@@ -16,6 +16,8 @@ public class Mapper{
     }
 
     public double mapDouble(double value){
+        if (Double.isInfinite(ratio))
+            return toStart;
         return ((value - fromStart) / ratio) + toStart;
     }
 
